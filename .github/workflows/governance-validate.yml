@@ -1,0 +1,39 @@
+name: AI Governance Enforcement
+
+on: [push, pull_request]
+
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify governance files
+        run: |
+          required=(
+            .github/copilot-instructions.md
+            .ai/global-instructions.md
+            .ai/agents/architect.md
+            .ai/agents/implementer.md
+            .ai/agents/tester.md
+            .ai/agents/refactor.md
+            .vscode/copilot.context.md
+            TODO-LEDGER.md
+            MEMORY-LEDGER.md
+            CHANGELOG.md
+          )
+          for f in "${required[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "Missing required file: $f"
+              exit 1
+            fi
+          done
+
+      - name: Enforce agent declaration (best-effort)
+        run: |
+          if grep -R "\[AGENT MODE:" -n . | wc -l | grep -q '^0$'; then
+            echo "Warning: No agent declarations detected in repo text."
+          fi
+
+      - name: CI placeholder
+        run: echo "Add language-specific tests here."
