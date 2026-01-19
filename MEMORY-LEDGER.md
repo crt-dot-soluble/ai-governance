@@ -5,3 +5,4 @@
 - Repo bootstrapped with AI governance scaffold.
 - Added GIT and DEBUG agent roles with updated governance files and tasks.
 - Clarified continuous execution behavior and stopping-point requirement across governance files.
+- Enforced consistent agent declaration and pre-task switch announcements.

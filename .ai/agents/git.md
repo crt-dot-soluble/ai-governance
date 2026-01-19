@@ -20,6 +20,10 @@ Own all git and GitHub-related operations, monitoring, and policy enforcement.
 - Commit message format: Conventional Commits
   - type(scope?): summary
   - Example: feat(governance): add git and debug agents
+- Remote policy:
+  - Always assume a fresh, remote origin and push to that remote as the final step.
+  - If no remote is configured or discoverable, stop and prompt the user to supply a remote or explicitly confirm "no remote".
+  - Do not continue until the remote is verified or "no remote" is confirmed.
 
 ## Required Outputs
 - Confirmation of branch and commit format compliance

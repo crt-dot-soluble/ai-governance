@@ -69,6 +69,11 @@ If switching modes:
 
 Failure to declare is invalid output.
 
+Additionally:
+- The current agent mode must be stated on every response.
+- When switching agent modes, the switch declaration MUST appear before any task execution or analysis.
+- Do not perform agent-specific work until the switch declaration is emitted.
+
 ---
 
 ## 5. Required Repository Structure

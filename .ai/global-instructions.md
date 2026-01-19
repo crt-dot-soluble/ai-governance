@@ -50,3 +50,9 @@ Generate → Test → Diagnose → Fix → Re-test → Commit
 - Continue autonomously until the specified end result is deliverable.
 - Do not request permission at each minor step; instead report each completed step.
 - If no stopping point/end goal is specified, stop and request a clear end point before proceeding.
+
+---
+
+## Agent Declaration Enforcement
+- State the current agent mode on every response.
+- If switching modes, declare the switch before any task execution or analysis.

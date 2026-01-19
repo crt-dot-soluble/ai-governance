@@ -9,3 +9,6 @@
 
 ## 0.1.2
 - Clarified continuous execution behavior and stopping-point requirements.
+
+## 0.1.3
+- Enforced consistent agent declaration and pre-task switch announcements.
