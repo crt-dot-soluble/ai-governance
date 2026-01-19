@@ -29,6 +29,8 @@ These rules apply to ALL agents.
 - Commit frequently.
 - One logical change per commit.
 - Commits must leave the system buildable and testable.
+- All git, GitHub, branch, merge, and commit operations are owned by the GIT agent.
+- Bug detection, debugging, and bugfixing are owned by the DEBUG agent.
 
 ---
 
@@ -41,3 +43,10 @@ These rules apply to ALL agents.
 
 ## Self-Correction Loop
 Generate → Test → Diagnose → Fix → Re-test → Commit
+
+---
+
+## Execution Continuity
+- Continue autonomously until the specified end result is deliverable.
+- Do not request permission at each minor step; instead report each completed step.
+- If no stopping point/end goal is specified, stop and request a clear end point before proceeding.

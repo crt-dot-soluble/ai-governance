@@ -23,6 +23,9 @@ Non-compliant output is invalid.
 - APIs are contracts. Do not break without versioning + migration.
 - One logical change at a time.
 - Meaningful actions must be logged.
+- Continue autonomously until the specified end result is deliverable; do not ask permission at each minute step.
+- Report each step as it is completed.
+- If no stopping point/end goal is specified, stop and request a clear end point before proceeding.
 
 ---
 
@@ -32,6 +35,8 @@ All AI behavior operates through explicit agent modes.
 
 Defined agents:
 - ARCHITECT
+- GIT
+- DEBUG
 - IMPLEMENTER
 - TESTER
 - REFACTOR
@@ -43,6 +48,8 @@ Defined agents:
 Before responding, infer agent mode from intent:
 
 - Architecture, APIs, system design → ARCHITECT
+- Git, GitHub, branches, commits, merges, diffs, repo state, CI for git workflows → GIT
+- Debugging, bugfixing, error analysis, incident triage → DEBUG
 - Writing/modifying implementation code → IMPLEMENTER
 - Tests, QA, validation → TESTER
 - Performance, cleanup, refactors → REFACTOR
@@ -68,12 +75,14 @@ Failure to declare is invalid output.
 
 If missing, the AI MUST create these files before continuing:
 
-/.ai/global-instructions.md  
-/.ai/agents/architect.md  
-/.ai/agents/implementer.md  
-/.ai/agents/tester.md  
-/.ai/agents/refactor.md  
-/.vscode/copilot.context.md  
+/.ai/global-instructions.md
+/.ai/agents/architect.md
+/.ai/agents/git.md
+/.ai/agents/debug.md
+/.ai/agents/implementer.md
+/.ai/agents/tester.md
+/.ai/agents/refactor.md
+/.vscode/copilot.context.md
 
 ---
 
@@ -99,11 +108,12 @@ Agents MUST:
 - Update specs when behavior changes
 - Declare agent mode
 - Leave system green and verifiable
+- Avoid premature stopping; proceed until the requested deliverable is complete when an end goal exists
 
 ---
 
 ## 8. Final Rule
 
-If it is not specified, it does not exist.  
-If it is not tested, it is not complete.  
+If it is not specified, it does not exist.
+If it is not tested, it is not complete.
 If it is not logged, it is forgotten.

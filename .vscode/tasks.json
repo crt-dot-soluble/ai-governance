@@ -7,6 +7,16 @@
       "command": "echo 'ARCHITECT agent active. Follow /.ai/agents/architect.md'"
     },
     {
+      "label": "Activate GIT Agent",
+      "type": "shell",
+      "command": "echo 'GIT agent active. Follow /.ai/agents/git.md'"
+    },
+    {
+      "label": "Activate DEBUG Agent",
+      "type": "shell",
+      "command": "echo 'DEBUG agent active. Follow /.ai/agents/debug.md'"
+    },
+    {
       "label": "Activate IMPLEMENTER Agent",
       "type": "shell",
       "command": "echo 'IMPLEMENTER agent active. Follow /.ai/agents/implementer.md'"

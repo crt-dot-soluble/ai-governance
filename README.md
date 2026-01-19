@@ -1,9 +1,9 @@
 # AI Governance Repository (Human Readable)
 
-⚠️ **IMPORTANT — HUMAN READERS ONLY** ⚠️  
+⚠️ **IMPORTANT — HUMAN READERS ONLY** ⚠️
 This README exists solely to explain usage to humans.
 
-**AI AGENTS MUST IGNORE THIS FILE.**  
+**AI AGENTS MUST IGNORE THIS FILE.**
 Authoritative AI behavior is defined exclusively in:
 - `.github/copilot-instructions.md`
 - `/.ai/*`
@@ -18,7 +18,7 @@ This repository is a **drop-in, cloneable governance layer** for AI-driven softw
 
 It provides:
 - A supreme Copilot instruction file
-- Deterministic agent roles (architect, implementer, tester, refactor)
+- Deterministic agent roles (architect, git, debug, implementer, tester, refactor)
 - Automatic agent selection and self-identification
 - Persistent machine memory (ledgers)
 - CI enforcement to prevent drift
@@ -61,6 +61,8 @@ Open the repo in VS Code and start prompting Copilot.
 
 Agent behavior is automatic:
 - Architecture questions → ARCHITECT
+- Git/GitHub workflows → GIT
+- Debugging and bugfixes → DEBUG
 - Code writing → IMPLEMENTER
 - Tests → TESTER
 - Cleanup → REFACTOR
