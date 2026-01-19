@@ -12,3 +12,7 @@
 
 ## 0.1.3
 - Enforced consistent agent declaration and pre-task switch announcements.
+
+## 0.1.4
+- Added spec template and minimum spec checks.
+- Added work plan format guidance for step reporting.

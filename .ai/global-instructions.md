@@ -8,6 +8,10 @@ These rules apply to ALL agents.
 - All work begins with specifications.
 - Specs define behavior, interfaces, and constraints.
 - Code is derived from specs, never the reverse.
+- Spec checklist (minimum):
+	- Inputs/outputs and error cases
+	- Non-goals and constraints
+	- Test plan (unit/integration/acceptance)
 
 ---
 

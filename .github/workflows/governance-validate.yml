@@ -23,6 +23,7 @@ jobs:
             TODO-LEDGER.md
             MEMORY-LEDGER.md
             CHANGELOG.md
+            specs/TEMPLATE.md
           )
           for f in "${required[@]}"; do
             if [ ! -f "$f" ]; then
@@ -30,6 +31,14 @@ jobs:
               exit 1
             fi
           done
+
+      - name: Verify spec presence (best-effort)
+        run: |
+          count=$(find specs -type f -name "*.md" | wc -l)
+          if [ "$count" -lt 1 ]; then
+            echo "Missing specs: add at least one spec file under /specs"
+            exit 1
+          fi
 
       - name: Enforce agent declaration (best-effort)
         run: |
