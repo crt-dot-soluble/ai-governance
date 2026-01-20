@@ -10,3 +10,4 @@
 - [DONE] Implement machine-first bootstrap/policy governance upgrade
 - [DONE] Add constitution, policy file, scripts, and repo structure enforcement
 - [DONE] Add policy update tasks and downstream immutability rules
+- [DONE] Enforce VS Code picker usage for language/framework inputs

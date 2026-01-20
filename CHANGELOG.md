@@ -36,3 +36,7 @@
 ## 0.2.1
 - Added policy update tasks and downstream immutability rules.
 - Added policy update script and CI validation for bootstrap/policy scripts.
+
+## 0.2.2
+- Enforced VS Code native pickers for bounded inputs.
+- Added predefined language and framework selections to tasks.

@@ -72,7 +72,8 @@ If skipped:
 ## Bootstrap Interface (Hard Requirement)
 Bootstrap MUST be launched via a VS Code Task.
 Plain-text configuration is NOT allowed.
-All selections MUST use pick lists, prompt strings, or yes/no confirmations.
+All selections MUST use VS Code native pick lists or yes/no confirmations.
+Text input is reserved for large code payloads or explicit human intervention due to roadblocks.
 
 Bootstrap output MUST generate exactly one authoritative policy artifact:
 - governance.config.json (preferred), OR
@@ -109,6 +110,7 @@ Options:
 Select:
 - Primary language
 - Frameworks / middleware / runtimes
+Selections must use VS Code pickers with predefined options.
 
 ### Autonomy & Feedback Policy (Stop Contract)
 Ordered and cumulative:

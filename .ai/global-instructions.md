@@ -13,6 +13,8 @@ These rules apply to ALL agents.
 
 ## VS Code Task Requirement
 - Any bounded decision (governance, enforcement, workflow, autonomy, scope) MUST be made through a VS Code Task.
+- When input is required or a selection is based on predefined options, use VS Code native pickers/confirmations.
+- Text input is reserved for large code payloads or explicit human intervention due to roadblocks.
 
 ---
 
