@@ -43,3 +43,6 @@
 
 ## 0.2.3
 - Normalized "None" framework selection to an empty list in bootstrap/policy updates.
+
+## 0.2.4
+- Added missing .ps1/.sh counterparts for policy update/validate and git init scripts.

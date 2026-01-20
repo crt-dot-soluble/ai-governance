@@ -12,3 +12,4 @@
 - [DONE] Add policy update tasks and downstream immutability rules
 - [DONE] Enforce VS Code picker usage for language/framework inputs
 - [DONE] Normalize "None" framework selection in policy scripts
+- [DONE] Add .ps1/.sh script counterparts for parity

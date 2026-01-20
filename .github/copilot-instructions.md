@@ -148,8 +148,11 @@ Phases may not be skipped. Each phase MUST:
 	bootstrap.sh
 	bootstrap.ps1
 	policy-validate.sh
+	policy-validate.ps1
 	policy-update.ps1
+	policy-update.sh
 	git-init.sh
+	git-init.ps1
 /spec/
 /plans/
 /docs/

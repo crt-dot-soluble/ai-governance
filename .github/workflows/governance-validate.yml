@@ -26,8 +26,11 @@ jobs:
             scripts/bootstrap.sh
             scripts/bootstrap.ps1
             scripts/policy-validate.sh
+            scripts/policy-validate.ps1
             scripts/policy-update.ps1
+            scripts/policy-update.sh
             scripts/git-init.sh
+            scripts/git-init.ps1
             TODO-LEDGER.md
             MEMORY-LEDGER.md
             CHANGELOG.md
