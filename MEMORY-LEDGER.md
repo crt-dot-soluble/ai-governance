@@ -17,3 +17,4 @@
 - Enforced VS Code native pickers for bounded inputs and added predefined language/framework options.
 - Normalized "None" framework selection to empty list in bootstrap/policy updates.
 - Added .ps1/.sh counterparts for policy update/validate and git init scripts.
+- Added specification rule requiring .ps1/.sh counterparts for all /scripts files.

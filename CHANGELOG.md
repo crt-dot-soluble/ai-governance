@@ -46,3 +46,6 @@
 
 ## 0.2.4
 - Added missing .ps1/.sh counterparts for policy update/validate and git init scripts.
+
+## 0.2.5
+- Specified script portability requirement for .ps1/.sh counterparts.

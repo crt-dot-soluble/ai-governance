@@ -162,6 +162,9 @@ MEMORY-LEDGER.md
 TODO-LEDGER.md
 CHANGELOG.md
 
+Portability requirement:
+- All external scripts under /scripts MUST have both .ps1 and .sh counterparts.
+
 Template system (mandatory):
 - Templates for root-level NAME.md files live in /templates (source of truth)
 - Use /templates/PLAN.md for /plans docs
