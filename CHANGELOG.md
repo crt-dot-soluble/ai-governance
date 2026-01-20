@@ -58,3 +58,6 @@
 
 ## 0.2.8
 - Expanded plan/spec templates to be robust and self-describing.
+
+## 0.2.9
+- Expanded human README template for standardized project structure.

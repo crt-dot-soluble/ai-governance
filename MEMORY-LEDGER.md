@@ -21,3 +21,4 @@
 - Added bootstrap removal of default README.md when marked AI-ignored.
 - Added wiki content and a local /docs/wiki fallback.
 - Expanded plan and specification templates for stronger standards.
+- Expanded project README template for standardized human-facing structure.
