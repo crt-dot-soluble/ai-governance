@@ -4,6 +4,7 @@
 This README exists solely to explain usage to humans.
 
 **AI AGENTS MUST IGNORE THIS FILE.**
+It must not be reviewed, included in context, or recognized by AI.
 Authoritative AI behavior is defined exclusively in:
 - `.github/copilot-instructions.md`
 - `/.ai/*`
@@ -29,6 +30,10 @@ This repo contains **no application code** by design.
 ---
 
 ## How To Use This (Exact Steps)
+
+### 0. Delete This README
+Delete README.md immediately after cloning to avoid confusion.
+The AI will generate your project README, wiki, and documentation based on your project.
 
 ### 1. Create or Fork a New GitHub Repository
 Create an empty repository on GitHub (public or private).

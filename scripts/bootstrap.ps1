@@ -24,6 +24,15 @@ if ($Mode -ne "customize") {
 
 if ($Frameworks -eq "None") { $Frameworks = "" }
 
+$readmePath = Join-Path $PSScriptRoot "..\README.md"
+if (Test-Path $readmePath) {
+  $readmeContent = Get-Content $readmePath -Raw
+  if ($readmeContent -match "AI AGENTS MUST IGNORE THIS FILE") {
+    Remove-Item $readmePath -Force
+    Write-Output "Removed default README.md"
+  }
+}
+
 if (-not ($allowedVersionControl -contains $VersionControl)) { throw "Invalid VersionControl" }
 if (-not ($allowedTesting -contains $Testing)) { throw "Invalid Testing" }
 if (-not ($allowedDocumentation -contains $Documentation)) { throw "Invalid Documentation" }

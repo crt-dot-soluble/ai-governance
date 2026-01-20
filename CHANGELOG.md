@@ -49,3 +49,6 @@
 
 ## 0.2.5
 - Specified script portability requirement for .ps1/.sh counterparts.
+
+## 0.2.6
+- Bootstrap now removes the default README.md when present.

@@ -22,6 +22,13 @@ if [ "$FRAMEWORKS" = "None" ]; then
   FRAMEWORKS=""
 fi
 
+if [ -f "${REPO_ROOT}/README.md" ]; then
+  if grep -q "AI AGENTS MUST IGNORE THIS FILE" "${REPO_ROOT}/README.md"; then
+    rm -f "${REPO_ROOT}/README.md"
+    echo "Removed default README.md"
+  fi
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 

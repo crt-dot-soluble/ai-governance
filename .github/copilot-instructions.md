@@ -67,6 +67,8 @@ If skipped:
 - Defaults remain active
 - A policy file is still generated mirroring defaults
 
+Bootstrap also removes the default README.md if present and marked as AI-ignored.
+
 ---
 
 ## Bootstrap Interface (Hard Requirement)
