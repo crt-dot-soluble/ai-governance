@@ -16,3 +16,4 @@
 - [DONE] Specify script portability requirement in spec
 - [DONE] Remove default README during bootstrap
 - [DONE] Add wiki content with local fallback
+- [DONE] Expand plan/spec templates for robust standards

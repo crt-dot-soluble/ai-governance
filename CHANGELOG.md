@@ -55,3 +55,6 @@
 
 ## 0.2.7
 - Added repository wiki content and local fallback under /docs/wiki.
+
+## 0.2.8
+- Expanded plan/spec templates to be robust and self-describing.
