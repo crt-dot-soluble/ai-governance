@@ -40,3 +40,6 @@
 ## 0.2.2
 - Enforced VS Code native pickers for bounded inputs.
 - Added predefined language and framework selections to tasks.
+
+## 0.2.3
+- Normalized "None" framework selection to an empty list in bootstrap/policy updates.

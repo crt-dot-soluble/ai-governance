@@ -22,6 +22,8 @@ if ($Mode -ne "customize") {
   $Autonomy = "feature"
 }
 
+if ($Frameworks -eq "None") { $Frameworks = "" }
+
 if (-not ($allowedVersionControl -contains $VersionControl)) { throw "Invalid VersionControl" }
 if (-not ($allowedTesting -contains $Testing)) { throw "Invalid Testing" }
 if (-not ($allowedDocumentation -contains $Documentation)) { throw "Invalid Documentation" }

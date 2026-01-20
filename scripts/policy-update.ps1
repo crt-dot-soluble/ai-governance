@@ -38,8 +38,12 @@ if ($Language -ne "") {
 }
 
 if ($Frameworks -ne "") {
-  $frameworkList = $Frameworks.Split(",") | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne "" }
-  $policy.language.frameworks = $frameworkList
+  if ($Frameworks -eq "None") {
+    $policy.language.frameworks = @()
+  } else {
+    $frameworkList = $Frameworks.Split(",") | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne "" }
+    $policy.language.frameworks = $frameworkList
+  }
 }
 
 if ($Autonomy -ne "") {

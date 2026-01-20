@@ -15,3 +15,4 @@
 - Added policy update script and VS Code tasks for policy revisions, autonomy, and workflow mode changes.
 - Added downstream immutability rule for governance data.
 - Enforced VS Code native pickers for bounded inputs and added predefined language/framework options.
+- Normalized "None" framework selection to empty list in bootstrap/policy updates.

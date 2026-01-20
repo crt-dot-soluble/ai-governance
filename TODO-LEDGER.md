@@ -11,3 +11,4 @@
 - [DONE] Add constitution, policy file, scripts, and repo structure enforcement
 - [DONE] Add policy update tasks and downstream immutability rules
 - [DONE] Enforce VS Code picker usage for language/framework inputs
+- [DONE] Normalize "None" framework selection in policy scripts
