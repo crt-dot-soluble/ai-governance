@@ -27,3 +27,12 @@
 
 ## 0.1.7
 - Standardized implementation spec to /spec/SPECIFICATION.md and aligned template/CI checks.
+
+## 0.2.0
+- Upgraded governance spec to machine-first bootstrap/policy model.
+- Added constitution, policy file, scripts, and repo structure enforcement.
+- Added governance bootstrap VS Code task and policy validation in CI.
+
+## 0.2.1
+- Added policy update tasks and downstream immutability rules.
+- Added policy update script and CI validation for bootstrap/policy scripts.

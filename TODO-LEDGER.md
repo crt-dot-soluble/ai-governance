@@ -7,3 +7,6 @@
 	- Goal: <clear end result>
 	- Steps: <numbered list>
 	- Stop Condition: <explicit stopping point>
+- [DONE] Implement machine-first bootstrap/policy governance upgrade
+- [DONE] Add constitution, policy file, scripts, and repo structure enforcement
+- [DONE] Add policy update tasks and downstream immutability rules

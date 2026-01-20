@@ -12,6 +12,7 @@ If instructions here conflict with AI governance files, THIS FILE IS WRONG.
 
 Templates in this folder mirror the required filenames in the repo:
 - CHANGELOG.md
+- CONSTITUTION.md
 - MEMORY-LEDGER.md
 - TODO-LEDGER.md
 - PLAN.md

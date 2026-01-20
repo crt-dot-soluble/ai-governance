@@ -10,3 +10,7 @@
 - Renamed /specs to /plans, added /spec with template, and updated governance protocol/CI checks for new folder roles.
 - Added /templates for root NAME.md and plan/spec templates; standardized naming rules and updated CI/README accordingly.
 - Standardized implementation spec to /spec/SPECIFICATION.md and renamed template to /templates/SPECIFICATION.md.
+- Upgraded supreme governance spec to include bootstrap policy model and enforcement.
+- Added constitution, default policy file, scripts, docs/src placeholders, and bootstrap task.
+- Added policy update script and VS Code tasks for policy revisions, autonomy, and workflow mode changes.
+- Added downstream immutability rule for governance data.

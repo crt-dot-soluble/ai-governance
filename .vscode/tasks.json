@@ -30,6 +30,140 @@
       "label": "Activate REFACTOR Agent",
       "type": "shell",
       "command": "echo 'REFACTOR agent active. Follow /.ai/agents/refactor.md'"
+    },
+    {
+      "label": "Governance Bootstrap",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/bootstrap.ps1",
+        "-Mode",
+        "${input:bootstrapMode}",
+        "-VersionControl",
+        "${input:versionControlPolicy}",
+        "-Testing",
+        "${input:testingPolicy}",
+        "-Documentation",
+        "${input:documentationPolicy}",
+        "-Language",
+        "${input:primaryLanguage}",
+        "-Frameworks",
+        "${input:frameworks}",
+        "-Autonomy",
+        "${input:autonomyPolicy}"
+      ]
+    },
+    {
+      "label": "Governance Policy Revision",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/policy-update.ps1",
+        "-VersionControl",
+        "${input:versionControlPolicy}",
+        "-Testing",
+        "${input:testingPolicy}",
+        "-Documentation",
+        "${input:documentationPolicy}",
+        "-Language",
+        "${input:primaryLanguage}",
+        "-Frameworks",
+        "${input:frameworks}",
+        "-Autonomy",
+        "${input:autonomyPolicy}"
+      ]
+    },
+    {
+      "label": "Set Autonomy Policy",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/policy-update.ps1",
+        "-Autonomy",
+        "${input:autonomyPolicy}"
+      ]
+    },
+    {
+      "label": "Set Workflow Mode",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/policy-update.ps1",
+        "-VersionControl",
+        "${input:versionControlPolicy}"
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "bootstrapMode",
+      "type": "pickString",
+      "description": "Bootstrap mode",
+      "options": [
+        "defaults",
+        "customize"
+      ]
+    },
+    {
+      "id": "versionControlPolicy",
+      "type": "pickString",
+      "description": "Version control policy",
+      "options": [
+        "git-local",
+        "git-remote",
+        "git-remote-ci"
+      ]
+    },
+    {
+      "id": "testingPolicy",
+      "type": "pickString",
+      "description": "Testing policy",
+      "options": [
+        "full",
+        "baseline"
+      ]
+    },
+    {
+      "id": "documentationPolicy",
+      "type": "pickString",
+      "description": "Documentation policy",
+      "options": [
+        "inline",
+        "comments-only",
+        "generate"
+      ]
+    },
+    {
+      "id": "primaryLanguage",
+      "type": "promptString",
+      "description": "Primary language"
+    },
+    {
+      "id": "frameworks",
+      "type": "promptString",
+      "description": "Frameworks/middleware/runtimes (comma-separated)"
+    },
+    {
+      "id": "autonomyPolicy",
+      "type": "pickString",
+      "description": "Autonomy & feedback policy",
+      "options": [
+        "feature",
+        "milestone",
+        "fully-autonomous"
+      ]
     }
   ]
 }
