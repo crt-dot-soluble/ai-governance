@@ -2,10 +2,9 @@
 ## Supreme AI Governance & Agent Specification
 
 ## 0. Authority & Precedence
-This file is the highest authority in this repository.
-All AI agents MUST obey this file above all others.
+This file is the highest authority in this repository. All AI agents MUST obey it.
 
-Conflict resolution order:
+Conflict resolution order (highest → lowest):
 1. This file
 2. /.ai/global-instructions.md
 3. /.ai/agents/*.md
@@ -26,6 +25,21 @@ Non-compliant output is invalid.
 - Continue autonomously until the specified end result is deliverable; do not ask permission at each minute step.
 - Report each step as it is completed.
 - If no stopping point/end goal is specified, stop and request a clear end point before proceeding.
+
+**Repository layout (mandatory):**
+- Planning/phasing docs → /plans only
+- Implementation specs → /spec only, named SPECIFICATION.md
+- Do not mix planning docs and implementation specs across /plans and /spec
+
+**Template system (mandatory):**
+- Templates for root-level NAME.md files live in /templates (source of truth)
+- Use /templates/PLAN.md for /plans docs
+- Use /templates/SPECIFICATION.md for /spec/SPECIFICATION.md
+
+**Naming (mandatory):**
+- Folders lowercase
+- Root governance files are UPPER-KEBAB (e.g., CHANGELOG.md)
+- Templates mirror target filenames
 
 ---
 
@@ -88,6 +102,14 @@ If missing, the AI MUST create these files before continuing:
 /.ai/agents/tester.md
 /.ai/agents/refactor.md
 /.vscode/copilot.context.md
+/plans/README.md
+/spec/README.md
+/templates/README.md
+/templates/CHANGELOG.md
+/templates/MEMORY-LEDGER.md
+/templates/TODO-LEDGER.md
+/templates/PLAN.md
+/templates/SPECIFICATION.md
 
 ---
 
@@ -114,6 +136,8 @@ Agents MUST:
 - Declare agent mode
 - Leave system green and verifiable
 - Avoid premature stopping; proceed until the requested deliverable is complete when an end goal exists
+- Enforce repository layout: planning documents under /plans, implementation specs under /spec
+- Enforce template system: create or update root NAME.md files using /templates as the source of truth
 
 ---
 

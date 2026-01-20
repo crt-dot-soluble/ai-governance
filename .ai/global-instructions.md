@@ -15,6 +15,13 @@ These rules apply to ALL agents.
 
 ---
 
+## Template System
+- Templates for root-level NAME.md files live under /templates and are the source of truth.
+- Use /templates/PLAN.md for planning documents under /plans.
+- Use /templates/SPECIFICATION.md for implementation specs under /spec.
+
+---
+
 ## Modularity & Architecture
 - Systems are modular and API-first.
 - Each module has a single responsibility.

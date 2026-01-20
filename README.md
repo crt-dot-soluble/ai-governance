@@ -22,6 +22,7 @@ It provides:
 - Automatic agent selection and self-identification
 - Persistent machine memory (ledgers)
 - CI enforcement to prevent drift
+- A template system for root governance files and spec/plan docs
 
 This repo contains **no application code** by design.
 
@@ -50,6 +51,8 @@ Inside this repo:
 - Add your project code
 - Add machine-readable specs (OpenAPI, schemas, etc.)
 - Do NOT modify governance files
+ - Use templates in /templates when creating root NAME.md files
+ - Add planning docs under /plans and implementation specs under /spec
 
 VS Code + GitHub Copilot will automatically:
 - Load `.github/copilot-instructions.md`

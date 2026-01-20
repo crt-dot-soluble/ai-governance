@@ -16,3 +16,14 @@
 ## 0.1.4
 - Added spec template and minimum spec checks.
 - Added work plan format guidance for step reporting.
+
+## 0.1.5
+- Renamed /specs to /plans for planning docs.
+- Added /spec for implementation specs with a template and CI checks.
+
+## 0.1.6
+- Added /templates for root NAME.md templates and plan/spec templates.
+- Standardized naming rules and updated CI/README to reflect template usage.
+
+## 0.1.7
+- Standardized implementation spec to /spec/SPECIFICATION.md and aligned template/CI checks.

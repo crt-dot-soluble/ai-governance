@@ -23,7 +23,14 @@ jobs:
             TODO-LEDGER.md
             MEMORY-LEDGER.md
             CHANGELOG.md
-            specs/TEMPLATE.md
+            plans/README.md
+            spec/README.md
+            templates/README.md
+            templates/CHANGELOG.md
+            templates/MEMORY-LEDGER.md
+            templates/TODO-LEDGER.md
+            templates/PLAN.md
+            templates/SPECIFICATION.md
           )
           for f in "${required[@]}"; do
             if [ ! -f "$f" ]; then
@@ -32,11 +39,18 @@ jobs:
             fi
           done
 
-      - name: Verify spec presence (best-effort)
+      - name: Verify planning docs presence (best-effort)
         run: |
-          count=$(find specs -type f -name "*.md" | wc -l)
+          count=$(find plans -type f -name "*.md" | wc -l)
           if [ "$count" -lt 1 ]; then
-            echo "Missing specs: add at least one spec file under /specs"
+            echo "Missing planning docs: add at least one markdown file under /plans"
+            exit 1
+          fi
+
+      - name: Verify implementation spec presence (best-effort)
+        run: |
+          if [ ! -f "spec/SPECIFICATION.md" ]; then
+            echo "Missing implementation spec: add /spec/SPECIFICATION.md"
             exit 1
           fi
 
