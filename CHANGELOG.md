@@ -52,3 +52,6 @@
 
 ## 0.2.6
 - Bootstrap now removes the default README.md when present.
+
+## 0.2.7
+- Added repository wiki content and local fallback under /docs/wiki.

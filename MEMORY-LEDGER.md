@@ -19,3 +19,4 @@
 - Added .ps1/.sh counterparts for policy update/validate and git init scripts.
 - Added specification rule requiring .ps1/.sh counterparts for all /scripts files.
 - Added bootstrap removal of default README.md when marked AI-ignored.
+- Added wiki content and a local /docs/wiki fallback.
