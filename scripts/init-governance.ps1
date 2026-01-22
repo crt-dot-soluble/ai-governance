@@ -18,13 +18,15 @@ foreach ($dir in $requiredDirs) {
 }
 
 
+
 $requiredFiles = @(
   "CONSTITUTION.md",
   "CHANGELOG.md",
   "MEMORY-LEDGER.md",
   "TODO-LEDGER.md",
   "README.md",
-  "governance.config.json"
+  "governance.config.json",
+  "ai-governance.code-workspace"
 )
 foreach ($file in $requiredFiles) {
   $targetPath = Join-Path $targetRoot $file
@@ -43,12 +45,14 @@ Copy-Item -Path (Join-Path $repoRoot "plans") -Destination (Join-Path $targetRoo
 Copy-Item -Path (Join-Path $repoRoot "src") -Destination (Join-Path $targetRoot "src") -Recurse
 Copy-Item -Path (Join-Path $repoRoot ".github") -Destination (Join-Path $targetRoot ".github") -Recurse
 
+
 Copy-Item -Path (Join-Path $repoRoot "templates\CONSTITUTION.md") -Destination (Join-Path $targetRoot "CONSTITUTION.md")
 Copy-Item -Path (Join-Path $repoRoot "templates\CHANGELOG.md") -Destination (Join-Path $targetRoot "CHANGELOG.md")
 Copy-Item -Path (Join-Path $repoRoot "templates\MEMORY-LEDGER.md") -Destination (Join-Path $targetRoot "MEMORY-LEDGER.md")
 Copy-Item -Path (Join-Path $repoRoot "templates\TODO-LEDGER.md") -Destination (Join-Path $targetRoot "TODO-LEDGER.md")
 Copy-Item -Path (Join-Path $repoRoot "templates\README.md") -Destination (Join-Path $targetRoot "README.md")
 Copy-Item -Path (Join-Path $repoRoot "governance.config.json") -Destination (Join-Path $targetRoot "governance.config.json")
+Copy-Item -Path (Join-Path $repoRoot "templates\ai-governance.code-workspace") -Destination (Join-Path $targetRoot "ai-governance.code-workspace")
 
 if (-not (Test-Path (Join-Path $targetRoot "spec"))) {
   New-Item -ItemType Directory -Force -Path (Join-Path $targetRoot "spec") | Out-Null
