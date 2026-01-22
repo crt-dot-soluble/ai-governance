@@ -15,7 +15,16 @@ If instructions here conflict with AI governance files, THIS FILE IS WRONG.
 
 ## Quick Project Bootstrap (Recommended)
 
-To create a new project with all required governance files, run one of the following from any shell (replace `COLOR-PICKER.md` with your spec file):
+
+To create a new project with all required governance files:
+
+1. Create and enter your new project folder:
+   ```
+   mkdir my-app
+   cd my-app
+   ```
+2. Run one of the following commands inside your project folder:
+
 
 
 
@@ -26,6 +35,7 @@ irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/m
 ```
 
 
+
 **Bash:**
 
 ```
@@ -33,12 +43,13 @@ curl -fsSL https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/
 ```
 
 
+
 This will:
-- Create a new folder (e.g., `color-picker`)
-- Copy all required governance files/folders
+- Copy all required governance files/folders into your current folder
 - Create an empty `spec` folder
 - **You must manually place your `SPECIFICATION.md` in the `spec` folder after running the script**
 - Result: ready-to-use VS Code project, no manual cleanup needed
+
 
 
 
@@ -56,7 +67,7 @@ curl -fsSL https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/
 cp ../MY-APP.md ./spec/SPECIFICATION.md
 ```
 
-This creates a folder `my-app` with the full governance structure. Place your spec at `spec/SPECIFICATION.md`.
+This scaffolds the full governance structure in your current folder. Place your spec at `spec/SPECIFICATION.md`.
 
 ---
 

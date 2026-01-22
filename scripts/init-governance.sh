@@ -2,7 +2,7 @@
 set -euo pipefail
 
 
-# No arguments required. Only scaffolds governance structure in current directory.
+# No arguments required. Run this script inside your new project folder. It will scaffold governance structure in the current directory.
 TARGET_ROOT="$PWD"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -45,4 +45,4 @@ cp "$REPO_ROOT/governance.config.json" "$TARGET_ROOT/governance.config.json"
 
 mkdir -p "$TARGET_ROOT/spec"
 
-echo "Initialized governance repository at $TARGET_ROOT.\n\nPlease manually place your SPECIFICATION.md in the 'spec' folder."
+echo "Initialized governance repository in $TARGET_ROOT.\n\nPlease manually place your SPECIFICATION.md in the 'spec' folder."

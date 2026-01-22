@@ -1,7 +1,8 @@
 
 # Support both param and $args for one-liner execution
 
-# No arguments required. Only scaffolds governance structure in current directory.
+
+# No arguments required. Run this script inside your new project folder. It will scaffold governance structure in the current directory.
 $targetRoot = Get-Location
 
 
@@ -53,4 +54,4 @@ if (-not (Test-Path (Join-Path $targetRoot "spec"))) {
   New-Item -ItemType Directory -Force -Path (Join-Path $targetRoot "spec") | Out-Null
 }
 
-Write-Output "Initialized governance repository at $targetRoot.\n\nPlease manually place your SPECIFICATION.md in the 'spec' folder."
+Write-Output "Initialized governance repository in $targetRoot.\n\nPlease manually place your SPECIFICATION.md in the 'spec' folder."
