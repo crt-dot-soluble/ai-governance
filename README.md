@@ -9,9 +9,9 @@
 
 ---
 
-## Table of Contents
 
-- [Project Setup Order (Recommended)](#project-setup-order-recommended)
+- [Workspace Quick-Start (Recommended)](#workspace-quick-start-recommended)
+- [Project Setup Order (Script Method)](#project-setup-order-script-method)
 - [Quickstart Commands](#quickstart-commands)
 - [VS Code Tasks (Reference)](#vs-code-tasks-reference)
 - [Example Workflow](#example-workflow)
@@ -23,40 +23,48 @@
 
 ---
 
-## Project Setup Order (Recommended)
 
-**Step 1: Create and enter your new project folder**
+## Workspace Quick-Start (Recommended)
 
-```bash
-mkdir my-app
-cd my-app
-```
+**Fastest, most reliable method for onboarding:**
 
-**Step 2: Scaffold governance structure**
+1. **Clone or copy this repository.**
+2. **Open `ai-governance.code-workspace` in VS Code.**
+3. **Follow the prompts and use the pre-configured tasks.**
+  - All folders, recommended extensions, and governance tasks are ready to use.
+  - Place your `SPECIFICATION.md` in the `spec` folder.
+  - Start work immediately—no manual setup or script execution required.
 
-PowerShell:
-```powershell
-irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 | iex
-```
-Bash:
-```bash
-curl -fsSL https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.sh | bash
-```
+---
 
-**Step 3: Place your SPECIFICATION.md in the `spec` folder**
+## Project Setup Order (Script Method)
 
-```bash
-cp ../MY-APP.md ./spec/SPECIFICATION.md
-```
+If you prefer a script-based setup or cannot use workspace files:
 
-**Step 4: Open the project in VS Code**
-
-**Step 5: Run VS Code tasks in this order:**
-
-- [ ] Governance Preflight *(optional, recommended)*
-- [x] Governance Bootstrap
-- [x] Start Spec Implementation
-- [x] Governance Policy Revision / Set Autonomy Policy / Set Workflow Mode *(as needed)*
+1. **Create and enter your new project folder**
+  ```bash
+  mkdir my-app
+  cd my-app
+  ```
+2. **Scaffold governance structure**
+  - PowerShell:
+    ```powershell
+    irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 | iex
+    ```
+  - Bash:
+    ```bash
+    curl -fsSL https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.sh | bash
+    ```
+3. **Place your SPECIFICATION.md in the `spec` folder**
+  ```bash
+  cp ../MY-APP.md ./spec/SPECIFICATION.md
+  ```
+4. **Open the project in VS Code**
+5. **Run VS Code tasks in this order:**
+  - [ ] Governance Preflight *(optional, recommended)*
+  - [x] Governance Bootstrap
+  - [x] Start Spec Implementation
+  - [x] Governance Policy Revision / Set Autonomy Policy / Set Workflow Mode *(as needed)*
 
 ---
 
