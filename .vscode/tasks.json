@@ -57,7 +57,9 @@
         "-Frameworks",
         "${input:frameworks}",
         "-Autonomy",
-        "${input:autonomyPolicy}"
+        "${input:autonomyPolicy}",
+        "-IncludeWorkspaceFile",
+        "${input:includeWorkspaceFile}"
       ],
       "linux": {
         "command": "bash",
@@ -292,6 +294,16 @@
     }
   ],
   "inputs": [
+    {
+      "id": "includeWorkspaceFile",
+      "type": "pickString",
+      "description": "Include VS Code workspace file for optimal experience?",
+      "options": [
+        "Yes (recommended)",
+        "No"
+      ],
+      "default": "Yes (recommended)"
+    },
     {
       "id": "bootstrapMode",
       "type": "pickString",

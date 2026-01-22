@@ -5,8 +5,25 @@ param(
   [Parameter(Mandatory=$false)][string]$Documentation = "",
   [Parameter(Mandatory=$false)][string]$Language = "",
   [Parameter(Mandatory=$false)][string]$Frameworks = "",
-  [Parameter(Mandatory=$false)][string]$Autonomy = ""
+  [Parameter(Mandatory=$false)][string]$Autonomy = "",
+  [Parameter(Mandatory=$false)][string]$IncludeWorkspaceFile = "Yes (recommended)"
 )
+$workspaceFilePath = Join-Path $PSScriptRoot "..\ai-governance.code-workspace"
+$templateWorkspaceFile = Join-Path $PSScriptRoot "..\templates\ai-governance.code-workspace"
+
+$shouldCopyWorkspace = $IncludeWorkspaceFile -eq "Yes (recommended)"
+
+$policyPath = Join-Path $PSScriptRoot "..\governance.config.json"
+$policy | ConvertTo-Json -Depth 6 | Out-File -FilePath $policyPath -Encoding UTF8
+Write-Output "Wrote governance policy to $policyPath"
+
+# Copy workspace file if requested and not already present
+if ($shouldCopyWorkspace -and -not (Test-Path $workspaceFilePath)) {
+  if (Test-Path $templateWorkspaceFile) {
+    Copy-Item $templateWorkspaceFile $workspaceFilePath
+    Write-Output "Copied VS Code workspace file to $workspaceFilePath"
+  }
+}
 
 $allowedMode = @("defaults", "customize")
 $allowedVersionControl = @("git-local", "git-remote", "git-remote-ci")

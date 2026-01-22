@@ -207,6 +207,13 @@ Agents MUST:
 
 ---
 
+
+## Wiki Synchronization Protocol (Required)
+After any change to the framework, documentation, or governance files, you MUST:
+- Run the wiki sync script (scripts/sync-wiki.ps1 or scripts/sync-wiki.sh)
+- Ensure the GitHub wiki is updated to match the local docs/wiki fallback
+- Commit and push all changes to both the main repo and the wiki repo
+
 ## Completion Criteria (Hard Stop)
 Work is complete ONLY IF:
 - A governance policy exists
@@ -215,6 +222,7 @@ Work is complete ONLY IF:
 - All phases complete
 - Tests & CI pass
 - Docs updated
+- Wiki updated and pushed
 - Remote pushed (if required)
 - Production-ready artifacts exist (if required)
 
