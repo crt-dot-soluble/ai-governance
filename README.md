@@ -17,10 +17,14 @@ If instructions here conflict with AI governance files, THIS FILE IS WRONG.
 
 To create a new project with all required governance files, run one of the following from any shell (replace `COLOR-PICKER.md` with your spec file):
 
+
 **PowerShell:**
 
 ```
-irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 | iex; init-governance.ps1 COLOR-PICKER.md
+# Download the script
+irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 -OutFile init-governance.ps1
+# Then run it with your spec file
+pwsh ./init-governance.ps1 COLOR-PICKER.md
 ```
 
 **Bash:**
@@ -35,12 +39,16 @@ This will:
 - Place your spec as `spec/SPECIFICATION.md`
 - Result: ready-to-use VS Code project, no manual cleanup needed
 
+
 ### Example
 
 Suppose you have a file `MY-APP.md`:
 
 ```
-irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 | iex; init-governance.ps1 MY-APP.md
+# Download the script
+irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 -OutFile init-governance.ps1
+# Then run it with your spec file
+pwsh ./init-governance.ps1 MY-APP.md
 ```
 
 This creates a folder `my-app` with the full governance structure and your spec at `spec/SPECIFICATION.md`.
