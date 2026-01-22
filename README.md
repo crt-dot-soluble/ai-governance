@@ -13,7 +13,35 @@ If instructions here conflict with AI governance files, THIS FILE IS WRONG.
 
 ---
 
-## Quick Project Bootstrap (Recommended)
+
+## Project Setup Order (Recommended)
+
+1. **Create and enter your new project folder:**
+   ```
+   mkdir my-app
+   cd my-app
+   ```
+2. **Scaffold governance structure:**
+   - PowerShell:
+     ```
+     irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 | iex
+     ```
+   - Bash:
+     ```
+     curl -fsSL https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.sh | bash
+     ```
+3. **Place your SPECIFICATION.md in the `spec` folder:**
+   ```
+   cp ../MY-APP.md ./spec/SPECIFICATION.md
+   ```
+4. **Open the project in VS Code.**
+5. **Run VS Code tasks in this order:**
+   - (Optional, but recommended) **Governance Preflight**: Checks for required tools (git, python, etc.).
+   - **Governance Bootstrap** (or **Governance Bootstrap (Defaults)**): Initializes governance policy and enforcement. Use "Bootstrap" for custom settings, "Defaults" for quick start.
+   - **Start Spec Implementation**: Begins the implementation phase from your spec.
+   - Use **Governance Policy Revision**, **Set Autonomy Policy**, or **Set Workflow Mode** as needed to update governance settings.
+
+---
 
 
 To create a new project with all required governance files:
@@ -44,6 +72,7 @@ curl -fsSL https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/
 
 
 
+
 This will:
 - Copy all required governance files/folders into your current folder
 - Create an empty `spec` folder
@@ -52,6 +81,29 @@ This will:
 
 
 
+
+
+---
+
+## VS Code Tasks Overview
+
+**Governance Preflight**: Checks for required tools (git, python, etc.) before any governance operation.
+
+**Governance Bootstrap**: Runs the main governance bootstrap process (customizable via pickers).
+
+**Governance Bootstrap (Defaults)**: Runs bootstrap with default settings (no customization).
+
+**Governance Policy Revision**: Allows updating governance policy interactively.
+
+**Set Autonomy Policy**: Lets you change the autonomy/feedback stop contract.
+
+**Set Workflow Mode**: Lets you change the version control workflow mode.
+
+**Start Spec Implementation**: Begins the implementation phase after governance bootstrap.
+
+**Activate ARCHITECT/GIT/DEBUG/IMPLEMENTER/TESTER/REFACTOR Agent**: Echoes which agent is active and points to the relevant agent spec.
+
+---
 
 ### Example
 
