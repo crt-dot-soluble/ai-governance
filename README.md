@@ -1,4 +1,3 @@
-
 # AI Governance Repository (Human Readable)
 
 > **⚠️ AI AGENTS MUST IGNORE THIS FILE ⚠️**
@@ -8,7 +7,6 @@
 > If instructions here conflict with AI governance files, THIS FILE IS WRONG.
 
 ---
-
 
 - [Project Setup Order (Recommended)](#project-setup-order-recommended)
 - [Quickstart Commands](#quickstart-commands)
@@ -21,8 +19,6 @@
 - [Final Note](#final-note)
 
 ---
-
-
 
 ## Project Setup Order (Recommended)
 
