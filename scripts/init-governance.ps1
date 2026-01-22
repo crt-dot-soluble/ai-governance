@@ -1,29 +1,12 @@
-param(
-  [Parameter(Mandatory = $true)][string]$SpecPath
-)
 
-if ($args.Count -gt 1) {
-  throw "Only one argument is allowed: path to SPECIFICATION.md"
-}
+# Support both param and $args for one-liner execution
 
-$resolvedSpecPath = Resolve-Path -Path $SpecPath -ErrorAction Stop
-if ((Split-Path -Leaf $resolvedSpecPath) -ne "SPECIFICATION.md") {
-  throw "Spec file must be named SPECIFICATION.md"
-}
+# No arguments required. Only scaffolds governance structure in current directory.
+$targetRoot = Get-Location
 
-$specDir = Split-Path -Parent $resolvedSpecPath
-$specDirName = Split-Path -Leaf $specDir
-if ($specDirName -ieq "spec") {
-  $targetRoot = Split-Path -Parent $specDir
-} else {
-  $targetRoot = $specDir
-}
-
-if (-not (Test-Path $targetRoot)) {
-  New-Item -ItemType Directory -Force -Path $targetRoot | Out-Null
-}
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
+
 
 $requiredDirs = @(".ai", ".vscode", "scripts", "templates", "docs", "plans", "src", "spec", ".github")
 foreach ($dir in $requiredDirs) {
@@ -32,6 +15,7 @@ foreach ($dir in $requiredDirs) {
     throw "Target already contains $dir at $targetPath. Aborting to avoid overwrite."
   }
 }
+
 
 $requiredFiles = @(
   "CONSTITUTION.md",
@@ -47,6 +31,7 @@ foreach ($file in $requiredFiles) {
     throw "Target already contains $file at $targetPath. Aborting to avoid overwrite."
   }
 }
+
 
 Copy-Item -Path (Join-Path $repoRoot ".ai") -Destination (Join-Path $targetRoot ".ai") -Recurse
 Copy-Item -Path (Join-Path $repoRoot ".vscode") -Destination (Join-Path $targetRoot ".vscode") -Recurse
@@ -64,10 +49,8 @@ Copy-Item -Path (Join-Path $repoRoot "templates\TODO-LEDGER.md") -Destination (J
 Copy-Item -Path (Join-Path $repoRoot "templates\README.md") -Destination (Join-Path $targetRoot "README.md")
 Copy-Item -Path (Join-Path $repoRoot "governance.config.json") -Destination (Join-Path $targetRoot "governance.config.json")
 
-$specTargetDir = Join-Path $targetRoot "spec"
-if (-not (Test-Path $specTargetDir)) {
-  New-Item -ItemType Directory -Force -Path $specTargetDir | Out-Null
+if (-not (Test-Path (Join-Path $targetRoot "spec"))) {
+  New-Item -ItemType Directory -Force -Path (Join-Path $targetRoot "spec") | Out-Null
 }
-Copy-Item -Path $resolvedSpecPath -Destination (Join-Path $specTargetDir "SPECIFICATION.md") -Force
 
-Write-Output "Initialized governance repository at $targetRoot"
+Write-Output "Initialized governance repository at $targetRoot.\n\nPlease manually place your SPECIFICATION.md in the 'spec' folder."

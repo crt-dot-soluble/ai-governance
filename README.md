@@ -18,40 +18,45 @@ If instructions here conflict with AI governance files, THIS FILE IS WRONG.
 To create a new project with all required governance files, run one of the following from any shell (replace `COLOR-PICKER.md` with your spec file):
 
 
+
 **PowerShell:**
 
 ```
-# Download the script
-irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 -OutFile init-governance.ps1
-# Then run it with your spec file
-pwsh ./init-governance.ps1 COLOR-PICKER.md
+irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 | iex
 ```
+
 
 **Bash:**
 
 ```
-curl -fsSL https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.sh | bash -s -- COLOR-PICKER.md
+curl -fsSL https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.sh | bash
 ```
+
 
 This will:
 - Create a new folder (e.g., `color-picker`)
 - Copy all required governance files/folders
-- Place your spec as `spec/SPECIFICATION.md`
+- Create an empty `spec` folder
+- **You must manually place your `SPECIFICATION.md` in the `spec` folder after running the script**
 - Result: ready-to-use VS Code project, no manual cleanup needed
+
 
 
 ### Example
 
-Suppose you have a file `MY-APP.md`:
+Suppose you want to create a new project:
 
 ```
-# Download the script
-irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 -OutFile init-governance.ps1
-# Then run it with your spec file
-pwsh ./init-governance.ps1 MY-APP.md
+mkdir my-app
+cd my-app
+irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 | iex
+# or for Bash:
+curl -fsSL https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.sh | bash
+# Then manually copy your SPECIFICATION.md into the spec folder
+cp ../MY-APP.md ./spec/SPECIFICATION.md
 ```
 
-This creates a folder `my-app` with the full governance structure and your spec at `spec/SPECIFICATION.md`.
+This creates a folder `my-app` with the full governance structure. Place your spec at `spec/SPECIFICATION.md`.
 
 ---
 
