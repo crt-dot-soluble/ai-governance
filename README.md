@@ -20,13 +20,13 @@ To create a new project with all required governance files, run one of the follo
 **PowerShell:**
 
 ```
-irm https://raw.githubusercontent.com/0xk1h0/ai-governance/main/scripts/init-governance.ps1 | iex; init-governance.ps1 COLOR-PICKER.md
+irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 | iex; init-governance.ps1 COLOR-PICKER.md
 ```
 
 **Bash:**
 
 ```
-curl -fsSL https://raw.githubusercontent.com/0xk1h0/ai-governance/main/scripts/init-governance.sh | bash -s -- COLOR-PICKER.md
+curl -fsSL https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.sh | bash -s -- COLOR-PICKER.md
 ```
 
 This will:
@@ -40,7 +40,7 @@ This will:
 Suppose you have a file `MY-APP.md`:
 
 ```
-irm https://raw.githubusercontent.com/0xk1h0/ai-governance/main/scripts/init-governance.ps1 | iex; init-governance.ps1 MY-APP.md
+irm https://raw.githubusercontent.com/crt-dot-soluble/ai-governance/refs/heads/main/scripts/init-governance.ps1 | iex; init-governance.ps1 MY-APP.md
 ```
 
 This creates a folder `my-app` with the full governance structure and your spec at `spec/SPECIFICATION.md`.
