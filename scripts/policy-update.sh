@@ -8,12 +8,27 @@ LANGUAGE="${4:-}"
 FRAMEWORKS="${5:-}"
 AUTONOMY="${6:-}"
 
-if [ ! -f "governance.config.json" ]; then
-  echo "Missing governance.config.json"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+POLICY_PATH="$REPO_ROOT/governance.config.json"
+
+if [ ! -f "$POLICY_PATH" ]; then
+  echo "Missing governance.config.json at $POLICY_PATH"
   exit 1
 fi
 
-VERSION_CONTROL="$VERSION_CONTROL" TESTING="$TESTING" DOCUMENTATION="$DOCUMENTATION" LANGUAGE="$LANGUAGE" FRAMEWORKS="$FRAMEWORKS" AUTONOMY="$AUTONOMY" python - <<'PY'
+PYTHON_BIN=""
+if command -v python3 >/dev/null 2>&1; then
+  PYTHON_BIN="python3"
+elif command -v python >/dev/null 2>&1; then
+  PYTHON_BIN="python"
+fi
+if [ -z "$PYTHON_BIN" ]; then
+  echo "Python is required for policy-update.sh (python3 or python)." >&2
+  exit 1
+fi
+
+POLICY_PATH="$POLICY_PATH" VERSION_CONTROL="$VERSION_CONTROL" TESTING="$TESTING" DOCUMENTATION="$DOCUMENTATION" LANGUAGE="$LANGUAGE" FRAMEWORKS="$FRAMEWORKS" AUTONOMY="$AUTONOMY" "$PYTHON_BIN" - <<'PY'
 import json
 import os
 
@@ -29,7 +44,8 @@ allowed_testing = {"full", "baseline"}
 allowed_documentation = {"inline", "comments-only", "generate"}
 allowed_autonomy = {"feature", "milestone", "fully-autonomous"}
 
-with open("governance.config.json", "r", encoding="utf-8") as f:
+policy_path = os.environ.get("POLICY_PATH") or "governance.config.json"
+with open(policy_path, "r", encoding="utf-8") as f:
   policy = json.load(f)
 
 if version_control:
@@ -62,8 +78,8 @@ if autonomy:
     raise SystemExit("Invalid Autonomy")
   policy["autonomy"] = autonomy
 
-with open("governance.config.json", "w", encoding="utf-8") as f:
+with open(policy_path, "w", encoding="utf-8") as f:
   json.dump(policy, f, indent=2)
 
-print("Updated governance policy at governance.config.json")
+print(f"Updated governance policy at {policy_path}")
 PY

@@ -29,6 +29,10 @@ jobs:
             scripts/policy-validate.ps1
             scripts/policy-update.ps1
             scripts/policy-update.sh
+            scripts/tooling-detect.ps1
+            scripts/tooling-detect.sh
+            scripts/spec-start.ps1
+            scripts/spec-start.sh
             scripts/git-init.sh
             scripts/git-init.ps1
             TODO-LEDGER.md

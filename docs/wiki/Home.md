@@ -8,3 +8,5 @@ For the canonical version, use the GitHub wiki.
 - [Policy Model](Policy.md)
 - [VS Code Tasks](Tasks.md)
 - [Repository Structure](Repository-Structure.md)
+- [Repository Initializer (CLI)](Repository-Initializer.md)
+- [Preflight Tooling Detection](Preflight.md)

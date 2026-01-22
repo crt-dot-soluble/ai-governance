@@ -17,3 +17,6 @@ Required layout:
 
 ## Portability
 All scripts under /scripts must have both .ps1 and .sh counterparts.
+
+## Initialization
+Use the repository initializer CLI to scaffold this structure in downstream projects without copying this repository's .git data.

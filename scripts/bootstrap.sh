@@ -1,13 +1,37 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODE="${1:-defaults}"
-VERSION_CONTROL="${2:-git-remote-ci}"
-TESTING="${3:-full}"
-DOCUMENTATION="${4:-inline}"
-LANGUAGE="${5:-unspecified}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+PYTHON_BIN=""
+if command -v python3 >/dev/null 2>&1; then
+  PYTHON_BIN="python3"
+elif command -v python >/dev/null 2>&1; then
+  PYTHON_BIN="python"
+fi
+if [ -z "$PYTHON_BIN" ]; then
+  echo "Python is required for bootstrap.sh (python3 or python)." >&2
+  exit 1
+fi
+
+MODE="${1:-}"
+VERSION_CONTROL="${2:-}"
+TESTING="${3:-}"
+DOCUMENTATION="${4:-}"
+LANGUAGE="${5:-}"
 FRAMEWORKS="${6:-}"
-AUTONOMY="${7:-feature}"
+AUTONOMY="${7:-}"
+
+if [ -z "$MODE" ]; then
+  echo "Missing bootstrap mode. Re-run the Governance Bootstrap task and select a mode." >&2
+  exit 1
+fi
+
+if [ "$MODE" != "defaults" ] && [ "$MODE" != "customize" ]; then
+  echo "Invalid Mode" >&2
+  exit 1
+fi
 
 if [ "$MODE" != "customize" ]; then
   VERSION_CONTROL="git-remote-ci"
@@ -16,7 +40,32 @@ if [ "$MODE" != "customize" ]; then
   LANGUAGE="unspecified"
   FRAMEWORKS=""
   AUTONOMY="feature"
+else
+  if [ -z "$VERSION_CONTROL" ] || [ -z "$TESTING" ] || [ -z "$DOCUMENTATION" ] || [ -z "$LANGUAGE" ] || [ -z "$AUTONOMY" ]; then
+    echo "Missing bootstrap inputs. Re-run the Governance Bootstrap task and complete all pickers." >&2
+    exit 1
+  fi
 fi
+
+case "$VERSION_CONTROL" in
+  git-local|git-remote|git-remote-ci) ;;
+  *) echo "Invalid VersionControl" >&2; exit 1 ;;
+esac
+
+case "$TESTING" in
+  full|baseline) ;;
+  *) echo "Invalid Testing" >&2; exit 1 ;;
+esac
+
+case "$DOCUMENTATION" in
+  inline|comments-only|generate) ;;
+  *) echo "Invalid Documentation" >&2; exit 1 ;;
+esac
+
+case "$AUTONOMY" in
+  feature|milestone|fully-autonomous) ;;
+  *) echo "Invalid Autonomy" >&2; exit 1 ;;
+esac
 
 if [ "$FRAMEWORKS" = "None" ]; then
   FRAMEWORKS=""
@@ -29,10 +78,13 @@ if [ -f "${REPO_ROOT}/README.md" ]; then
   fi
 fi
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+SPEC_PATH="${REPO_ROOT}/spec/SPECIFICATION.md"
+if [ ! -f "$SPEC_PATH" ]; then
+  echo "Missing spec/SPECIFICATION.md. Create it before running bootstrap." >&2
+  exit 1
+fi
 
-MODE="$MODE" VERSION_CONTROL="$VERSION_CONTROL" TESTING="$TESTING" DOCUMENTATION="$DOCUMENTATION" LANGUAGE="$LANGUAGE" FRAMEWORKS="$FRAMEWORKS" AUTONOMY="$AUTONOMY" REPO_ROOT="$REPO_ROOT" python - <<'PY'
+MODE="$MODE" VERSION_CONTROL="$VERSION_CONTROL" TESTING="$TESTING" DOCUMENTATION="$DOCUMENTATION" LANGUAGE="$LANGUAGE" FRAMEWORKS="$FRAMEWORKS" AUTONOMY="$AUTONOMY" REPO_ROOT="$REPO_ROOT" "$PYTHON_BIN" - <<'PY'
 import json, os, datetime
 mode = os.environ.get("MODE")
 version_control = os.environ.get("VERSION_CONTROL")

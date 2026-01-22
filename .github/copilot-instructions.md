@@ -57,6 +57,8 @@ Bootstrap MUST run when:
 - No policy file exists, OR
 - The user explicitly requests bootstrap
 
+Bootstrap MUST also run at the start of every session/workstream before any other work, even if a policy already exists.
+
 Bootstrap is mandatory but skippable via explicit mode selection.
 
 ### Required Bootstrap Mode Prompt (first prompt)
@@ -76,6 +78,7 @@ Bootstrap MUST be launched via a VS Code Task.
 Plain-text configuration is NOT allowed.
 All selections MUST use VS Code native pick lists or yes/no confirmations.
 Text input is reserved for large code payloads or explicit human intervention due to roadblocks.
+Agents MUST wait for the task to complete and MUST NOT proceed if any picker input is missing or canceled.
 
 Bootstrap output MUST generate exactly one authoritative policy artifact:
 - governance.config.json (preferred), OR
@@ -226,6 +229,7 @@ Work is complete ONLY IF:
 - Meaningful actions must be logged
 - Continue autonomously until the specified end result is deliverable
 - If no end goal is specified, stop and request a clear stopping point
+- After bootstrap completes, the immediate and primary target is ./spec/SPECIFICATION.md; do not proceed elsewhere first
 - Governance files are editable ONLY in this repository.
 - In downstream projects, AI-governance data is immutable once bootstrap generates policy.
 - Policy changes, autonomy selection, and workflow mode changes MUST be performed via VS Code Tasks.

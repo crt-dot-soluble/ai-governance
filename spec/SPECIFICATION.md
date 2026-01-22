@@ -1,29 +1,76 @@
 # IMPLEMENTATION SPECIFICATION
 
 ## Overview
-- Purpose:
-- Scope:
-- Non-goals:
+- Purpose: Fix bootstrap task handling and clarify post-bootstrap workflow, and provide a CLI initializer for downstream repositories.
+- Scope: Bootstrap scripts, Copilot operating context/docs, and new repo initializer scripts.
+- Non-goals: Changing policy domains, altering task picker options, or modifying CI behavior beyond documentation.
 
 ## Requirements
 - Functional requirements:
+	- Bootstrap must be executed at the start of every session/workstream and agents must wait for task completion and all picker inputs.
+	- Bootstrap scripts must reject missing inputs with a clear error instructing a task re-run.
+	- If defaults are selected, bootstrap must complete without further prompting (use a defaults-only task).
+	- Spec enforcement must be skipped only when modifying the repository that contains the spec itself (this repo), to allow spec development without enforcement conflicts.
+	- A preflight tooling detection step must run before bootstrap/policy tasks and write .vscode/tooling.json.
+	- Bootstrap must verify the existence of spec/SPECIFICATION.md before writing policy.
+	- A spec-start task must verify policy/spec presence and explicitly begin work from the spec.
+	- After bootstrap completes, the immediate target is ./spec/SPECIFICATION.md.
+	- Provide a cross-platform CLI initializer (PowerShell + Bash) that:
+		- Accepts exactly one argument: a path to SPECIFICATION.md
+		- Validates the filename is exactly SPECIFICATION.md
+		- Determines target root as:
+			- Parent of spec/ if the file is inside a spec/ folder
+			- Otherwise, the directory containing SPECIFICATION.md
+		- Creates required governance structure and copies required files
+		- Copies no .git data
+		- Aborts if required files/directories already exist in the target
+		- Copies the provided SPECIFICATION.md to /spec/SPECIFICATION.md in the target
 - Non-functional requirements:
+	- Scripts must be fast, deterministic, and have clear error messages.
+	- PowerShell and Bash implementations must be equivalent.
 - Constraints:
+	- No interactive text prompts for governance selections.
+	- Only one CLI argument is permitted for the initializer.
+	- VS Code Tasks cannot dynamically disable picker options without a custom extension; preflight output is informational.
 
 ## Interfaces
 - Inputs:
+	- Bootstrap task pickers (Mode, VersionControl, Testing, Documentation, Language, Frameworks, Autonomy)
+	- Initializer argument: path to SPECIFICATION.md
 - Outputs:
+	- governance.config.json updated by bootstrap
+	- New repository structure with required governance files
 - Error cases:
+	- Missing/empty bootstrap inputs
+	- Invalid picker values
+	- Initializer called with zero or multiple args
+	- Spec file not found or misnamed
+	- Target already contains required files or directories
+	- Spec enforcement is intentionally bypassed only when modifying the spec repository itself
 
 ## Architecture
 - Components/modules:
+	- Bootstrap scripts (PowerShell/Bash)
+	- Copilot operating context and wiki docs
+	- Repository initializer scripts (PowerShell/Bash)
 - Data flow:
+	- VS Code Task inputs → bootstrap scripts → governance.config.json
+	- SPECIFICATION.md argument → initializer scripts → target repository scaffold
 
 ## Acceptance Criteria
 - Tests to pass:
+	- Bootstrap scripts fail fast on missing inputs and succeed with valid inputs.
+	- Initializer creates the required structure and places SPECIFICATION.md correctly.
+	- Documentation reflects always-on bootstrap and post-bootstrap spec focus.
 - Success metrics:
+	- No silent bootstrap runs without picker inputs.
+	- Downstream initialization no longer copies .git data or ambiguous root files.
 
 ## Test Plan
 - Unit tests:
+	- N/A (script-based validation)
 - Integration tests:
+	- Run initializer against an empty directory and verify required files/folders exist.
 - Acceptance tests:
+	- Run bootstrap via VS Code task and confirm inputs are required and policy is written.
+	- Verify docs/wiki/Bootstrap.md and Copilot context state the post-bootstrap spec focus.

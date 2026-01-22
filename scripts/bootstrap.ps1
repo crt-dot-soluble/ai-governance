@@ -1,17 +1,24 @@
 param(
-  [Parameter(Mandatory=$false)][string]$Mode = "defaults",
-  [Parameter(Mandatory=$false)][string]$VersionControl = "git-remote-ci",
-  [Parameter(Mandatory=$false)][string]$Testing = "full",
-  [Parameter(Mandatory=$false)][string]$Documentation = "inline",
-  [Parameter(Mandatory=$false)][string]$Language = "unspecified",
+  [Parameter(Mandatory=$false)][string]$Mode = "",
+  [Parameter(Mandatory=$false)][string]$VersionControl = "",
+  [Parameter(Mandatory=$false)][string]$Testing = "",
+  [Parameter(Mandatory=$false)][string]$Documentation = "",
+  [Parameter(Mandatory=$false)][string]$Language = "",
   [Parameter(Mandatory=$false)][string]$Frameworks = "",
-  [Parameter(Mandatory=$false)][string]$Autonomy = "feature"
+  [Parameter(Mandatory=$false)][string]$Autonomy = ""
 )
 
+$allowedMode = @("defaults", "customize")
 $allowedVersionControl = @("git-local", "git-remote", "git-remote-ci")
 $allowedTesting = @("full", "baseline")
 $allowedDocumentation = @("inline", "comments-only", "generate")
 $allowedAutonomy = @("feature", "milestone", "fully-autonomous")
+
+if ([string]::IsNullOrWhiteSpace($Mode)) {
+  throw "Missing bootstrap mode. Re-run the Governance Bootstrap task and select a mode."
+}
+
+if (-not ($allowedMode -contains $Mode)) { throw "Invalid Mode" }
 
 if ($Mode -ne "customize") {
   $VersionControl = "git-remote-ci"
@@ -20,6 +27,14 @@ if ($Mode -ne "customize") {
   $Language = "unspecified"
   $Frameworks = ""
   $Autonomy = "feature"
+} else {
+  if ([string]::IsNullOrWhiteSpace($VersionControl) -or
+      [string]::IsNullOrWhiteSpace($Testing) -or
+      [string]::IsNullOrWhiteSpace($Documentation) -or
+      [string]::IsNullOrWhiteSpace($Language) -or
+      [string]::IsNullOrWhiteSpace($Autonomy)) {
+    throw "Missing bootstrap inputs. Re-run the Governance Bootstrap task and complete all pickers."
+  }
 }
 
 if ($Frameworks -eq "None") { $Frameworks = "" }
@@ -31,6 +46,11 @@ if (Test-Path $readmePath) {
     Remove-Item $readmePath -Force
     Write-Output "Removed default README.md"
   }
+}
+
+$specPath = Join-Path $PSScriptRoot "..\spec\SPECIFICATION.md"
+if (-not (Test-Path $specPath)) {
+  throw "Missing spec/SPECIFICATION.md. Create it before running bootstrap."
 }
 
 if (-not ($allowedVersionControl -contains $VersionControl)) { throw "Invalid VersionControl" }

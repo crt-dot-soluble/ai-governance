@@ -61,3 +61,19 @@
 
 ## 0.2.9
 - Expanded human README template for standardized project structure.
+
+## 0.3.0
+- Enforced always-on bootstrap workflow with explicit task-completion waiting.
+- Added repository initializer CLI scripts (PowerShell/Bash) for downstream scaffolding.
+- Clarified post-bootstrap focus on /spec/SPECIFICATION.md and updated wiki docs.
+- Hardened bootstrap input validation and fixed bash bootstrap root resolution.
+
+## 0.3.1
+- Added tooling preflight detection and cross-platform task execution.
+- Added Python availability checks for shell scripts that require Python.
+
+## 0.3.2
+- Made policy shell scripts resilient to non-root working directories.
+
+## 0.3.3
+- Added spec existence checks during bootstrap and a spec-start task/scripts.

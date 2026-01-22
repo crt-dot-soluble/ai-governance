@@ -22,3 +22,10 @@
 - Added wiki content and a local /docs/wiki fallback.
 - Expanded plan and specification templates for stronger standards.
 - Expanded project README template for standardized human-facing structure.
+- Enforced always-on bootstrap behavior with explicit task-completion waiting guidance.
+- Added repo initializer CLI scripts for downstream scaffolding without .git data.
+- Hardened bootstrap input validation and clarified post-bootstrap focus on /spec/SPECIFICATION.md.
+- Added tooling preflight detection and cross-platform task support for bootstrap/policy tasks.
+- Added explicit Python availability checks for shell-based governance scripts.
+- Hardened policy shell scripts to resolve governance.config.json from the script location.
+- Added spec existence checks during bootstrap and a spec-start task/scripts.
