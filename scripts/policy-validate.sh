@@ -30,7 +30,7 @@ required = [
 ]
 policy_path = os.environ.get("POLICY_PATH") or "governance.config.json"
 with open(policy_path, "r", encoding="utf-8") as f:
-  data = json.load(f)
+  data = json.load(open(policy_path, "r", encoding="utf-8-sig"))
 missing = [k for k in required if k not in data]
 if missing:
   raise SystemExit(f"Missing policy keys: {missing}")

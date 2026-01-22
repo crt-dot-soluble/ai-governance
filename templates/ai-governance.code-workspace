@@ -1,45 +1,57 @@
 {
-  "folders": [
-    { "path": "." },
-    { "path": "src" },
-    { "path": "spec" },
-    { "path": "plans" },
-    { "path": "docs" },
-    { "path": "templates" }
-  ],
-  "settings": {
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2,
-    "files.exclude": {
-      "**/.git": true,
-      "**/.DS_Store": true
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "src"
+        },
+        {
+            "path": "spec"
+        },
+        {
+            "path": "plans"
+        },
+        {
+            "path": "docs"
+        },
+        {
+            "path": "templates"
+        }
+    ],
+    "settings": {
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2,
+        "files.exclude": {
+            "**/.git": true,
+            "**/.DS_Store": true
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "ms-python.python",
+            "GitHub.copilot",
+            "yzhang.markdown-all-in-one"
+        ]
+    },
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "Governance Preflight",
+                "type": "shell",
+                "command": "powershell scripts/tooling-detect.ps1"
+            },
+            {
+                "label": "Governance Bootstrap",
+                "type": "shell",
+                "command": "powershell scripts/bootstrap.ps1"
+            },
+            {
+                "label": "Start Spec Implementation",
+                "type": "shell",
+                "command": "powershell scripts/spec-start.ps1"
+            }
+        ]
     }
-  },
-  "extensions": {
-    "recommendations": [
-      "ms-python.python",
-      "GitHub.copilot",
-      "yzhang.markdown-all-in-one"
-    ]
-  },
-  "tasks": {
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "Governance Preflight",
-        "type": "shell",
-        "command": "powershell scripts/tooling-detect.ps1"
-      },
-      {
-        "label": "Governance Bootstrap",
-        "type": "shell",
-        "command": "powershell scripts/bootstrap.ps1"
-      },
-      {
-        "label": "Start Spec Implementation",
-        "type": "shell",
-        "command": "powershell scripts/spec-start.ps1"
-      }
-    ]
-  }
 }
