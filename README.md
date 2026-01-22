@@ -35,9 +35,10 @@ If instructions here conflict with AI governance files, THIS FILE IS WRONG.
    cp ../MY-APP.md ./spec/SPECIFICATION.md
    ```
 4. **Open the project in VS Code.**
+
 5. **Run VS Code tasks in this order:**
    - (Optional, but recommended) **Governance Preflight**: Checks for required tools (git, python, etc.).
-   - **Governance Bootstrap** (or **Governance Bootstrap (Defaults)**): Initializes governance policy and enforcement. Use "Bootstrap" for custom settings, "Defaults" for quick start.
+   - **Governance Bootstrap**: Initializes governance policy and enforcement (customize or accept defaults as prompted).
    - **Start Spec Implementation**: Begins the implementation phase from your spec.
    - Use **Governance Policy Revision**, **Set Autonomy Policy**, or **Set Workflow Mode** as needed to update governance settings.
 
@@ -85,23 +86,16 @@ This will:
 
 ---
 
-## VS Code Tasks Overview
 
-**Governance Preflight**: Checks for required tools (git, python, etc.) before any governance operation.
+## All VS Code Tasks (Reference)
 
-**Governance Bootstrap**: Runs the main governance bootstrap process (customizable via pickers).
-
-**Governance Bootstrap (Defaults)**: Runs bootstrap with default settings (no customization).
-
-**Governance Policy Revision**: Allows updating governance policy interactively.
-
-**Set Autonomy Policy**: Lets you change the autonomy/feedback stop contract.
-
-**Set Workflow Mode**: Lets you change the version control workflow mode.
-
-**Start Spec Implementation**: Begins the implementation phase after governance bootstrap.
-
-**Activate ARCHITECT/GIT/DEBUG/IMPLEMENTER/TESTER/REFACTOR Agent**: Echoes which agent is active and points to the relevant agent spec.
+- **Governance Preflight**: Checks for required tools (git, python, etc.) before any governance operation.
+- **Governance Bootstrap**: Runs the main governance bootstrap process (lets you customize or accept defaults as prompted).
+- **Governance Policy Revision**: Allows updating governance policy interactively.
+- **Set Autonomy Policy**: Lets you change the autonomy/feedback stop contract.
+- **Set Workflow Mode**: Lets you change the version control workflow mode.
+- **Start Spec Implementation**: Begins the implementation phase after governance bootstrap.
+- **Activate ARCHITECT/GIT/DEBUG/IMPLEMENTER/TESTER/REFACTOR Agent**: Echoes which agent is active and points to the relevant agent spec.
 
 ---
 
