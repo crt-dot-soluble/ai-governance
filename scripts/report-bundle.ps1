@@ -2,7 +2,7 @@ param(
   [Parameter(Mandatory = $false)][string]$OutputPath = ""
 )
 
-$repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 if ([string]::IsNullOrWhiteSpace($OutputPath)) {
   $OutputPath = Join-Path $repoRoot ".vscode\report-bundle.zip"
 }

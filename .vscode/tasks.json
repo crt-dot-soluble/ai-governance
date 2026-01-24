@@ -241,6 +241,12 @@
     {
       "label": "Governance Report Bundle",
       "type": "shell",
+      "dependsOn": [
+        "Governance Preflight",
+        "Governance Self-Audit",
+        "Governance Policy Validate"
+      ],
+      "dependsOrder": "sequence",
       "command": "powershell",
       "args": [
         "-ExecutionPolicy",
