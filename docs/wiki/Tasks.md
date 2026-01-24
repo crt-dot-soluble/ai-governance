@@ -11,6 +11,18 @@ Runs bootstrap in defaults mode without prompting for additional options.
 ## Governance Preflight
 Detects installed tools and writes a report to .vscode/tooling.json. Bootstrap and policy tasks depend on this preflight step.
 
+## Governance Init Repository
+Initializes a target repository using a provided SPECIFICATION.md path.
+
+## Governance Policy Validate
+Validates governance.config.json for required keys.
+
+## Governance Git Init
+Initializes git in the current repo if not already present.
+
+## Governance Wiki Sync
+Syncs docs/wiki to the GitHub wiki.
+
 ## Governance Self-Audit
 Runs the sanity/audit checks and writes .vscode/audit.json.
 

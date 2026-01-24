@@ -59,6 +59,10 @@ It contains no application code by design.
 | Task | Description |
 |------|-------------|
 | Governance Preflight | Detects tooling and writes .vscode/tooling.json. |
+| Governance Init Repository | Initializes a target repo using SPECIFICATION.md. |
+| Governance Policy Validate | Validates governance.config.json. |
+| Governance Git Init | Initializes git if not present. |
+| Governance Wiki Sync | Syncs docs/wiki to the GitHub wiki. |
 | Governance Self-Audit | Runs sanity checks and writes .vscode/audit.json. |
 | Governance Bootstrap | Runs the bootstrap process and creates policy. |
 | Governance Policy Revision | Updates policy values using pickers. |

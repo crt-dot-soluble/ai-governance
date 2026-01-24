@@ -143,6 +143,102 @@
       }
     },
     {
+      "label": "Governance Init Repository",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/init-governance.ps1",
+        "-SpecPath",
+        "${input:specPath}"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "scripts/init-governance.sh",
+          "${input:specPath}"
+        ]
+      },
+      "osx": {
+        "command": "bash",
+        "args": [
+          "scripts/init-governance.sh",
+          "${input:specPath}"
+        ]
+      }
+    },
+    {
+      "label": "Governance Policy Validate",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/policy-validate.ps1"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "scripts/policy-validate.sh"
+        ]
+      },
+      "osx": {
+        "command": "bash",
+        "args": [
+          "scripts/policy-validate.sh"
+        ]
+      }
+    },
+    {
+      "label": "Governance Git Init",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/git-init.ps1"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "scripts/git-init.sh"
+        ]
+      },
+      "osx": {
+        "command": "bash",
+        "args": [
+          "scripts/git-init.sh"
+        ]
+      }
+    },
+    {
+      "label": "Governance Wiki Sync",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/sync-wiki.ps1"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "scripts/sync-wiki.sh"
+        ]
+      },
+      "osx": {
+        "command": "bash",
+        "args": [
+          "scripts/sync-wiki.sh"
+        ]
+      }
+    },
+    {
       "label": "Governance Self-Audit",
       "type": "shell",
       "command": "powershell",
@@ -317,6 +413,11 @@
     }
   ],
   "inputs": [
+    {
+      "id": "specPath",
+      "type": "promptString",
+      "description": "Path to SPECIFICATION.md for initializer"
+    },
     {
       "id": "includeWorkspaceFile",
       "type": "pickString",
