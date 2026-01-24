@@ -6,6 +6,11 @@ OUTPUT_PATH="${1:-}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
+log_json() {
+  local level="$1"; local message="$2"; local data="$3"
+  printf '{"timestamp":"%s","level":"%s","message":"%s","data":%s}\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$level" "$message" "$data"
+}
+
 if [ -z "$OUTPUT_PATH" ]; then
   OUTPUT_PATH="$REPO_ROOT/.vscode/tooling.json"
 fi
@@ -44,3 +49,4 @@ cat > "$OUTPUT_PATH" <<JSON
 JSON
 
 echo "Tooling report written to $OUTPUT_PATH"
+log_json "info" "tooling.detect.done" "{\"path\":\"$OUTPUT_PATH\"}"

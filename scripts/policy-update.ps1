@@ -7,6 +7,13 @@ param(
   [Parameter(Mandatory=$false)][string]$Autonomy = ""
 )
 
+function Write-JsonLog([string]$Level, [string]$Message, [hashtable]$Data = @{}) {
+  $payload = [ordered]@{ timestamp = (Get-Date -Format "o"); level = $Level; message = $Message; data = $Data }
+  $payload | ConvertTo-Json -Compress | Write-Output
+}
+
+Write-JsonLog "info" "policy.update.start" @{}
+
 $policyPath = Join-Path $PSScriptRoot "..\governance.config.json"
 if (-not (Test-Path $policyPath)) { throw "Missing governance.config.json" }
 
@@ -53,3 +60,4 @@ if ($Autonomy -ne "") {
 
 $policy | ConvertTo-Json -Depth 6 | Out-File -FilePath $policyPath -Encoding UTF8
 Write-Output "Updated governance policy at $policyPath"
+Write-JsonLog "info" "policy.update.done" @{ path = $policyPath }

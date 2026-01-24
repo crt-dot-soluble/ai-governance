@@ -239,6 +239,33 @@
       }
     },
     {
+      "label": "Governance Report Bundle",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/report-bundle.ps1",
+        "-OutputPath",
+        "${input:reportOutputPath}"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "scripts/report-bundle.sh",
+          "${input:reportOutputPath}"
+        ]
+      },
+      "osx": {
+        "command": "bash",
+        "args": [
+          "scripts/report-bundle.sh",
+          "${input:reportOutputPath}"
+        ]
+      }
+    },
+    {
       "label": "Governance Self-Audit",
       "type": "shell",
       "command": "powershell",
@@ -413,6 +440,12 @@
     }
   ],
   "inputs": [
+    {
+      "id": "reportOutputPath",
+      "type": "promptString",
+      "description": "Report bundle output path",
+      "default": ".vscode/report-bundle.zip"
+    },
     {
       "id": "specPath",
       "type": "promptString",

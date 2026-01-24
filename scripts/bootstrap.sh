@@ -4,6 +4,11 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
+log_json() {
+  local level="$1"; local message="$2"; local data="$3"
+  printf '{"timestamp":"%s","level":"%s","message":"%s","data":%s}\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$level" "$message" "$data"
+}
+
 PYTHON_BIN=""
 if command -v python3 >/dev/null 2>&1; then
   PYTHON_BIN="python3"
@@ -23,7 +28,10 @@ LANGUAGE="${5:-}"
 FRAMEWORKS="${6:-}"
 AUTONOMY="${7:-}"
 
+log_json "info" "bootstrap.start" "{\"mode\":\"$MODE\"}"
+
 if [ -z "$MODE" ]; then
+  log_json "error" "bootstrap.missing_mode" "{}"
   echo "Missing bootstrap mode. Re-run the Governance Bootstrap task and select a mode." >&2
   exit 1
 fi
@@ -80,6 +88,7 @@ fi
 
 SPEC_PATH="${REPO_ROOT}/spec/SPECIFICATION.md"
 if [ ! -f "$SPEC_PATH" ]; then
+  log_json "error" "bootstrap.missing_spec" "{\"path\":\"$SPEC_PATH\"}"
   echo "Missing spec/SPECIFICATION.md. Create it before running bootstrap." >&2
   exit 1
 fi
@@ -121,3 +130,5 @@ with open(os.path.join(repo_root, "governance.config.json"), "w", encoding="utf-
 
 print("Wrote governance policy to governance.config.json")
 PY
+
+log_json "info" "bootstrap.policy_written" "{\"path\":\"$REPO_ROOT/governance.config.json\"}"

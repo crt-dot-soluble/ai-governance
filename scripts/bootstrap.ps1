@@ -8,6 +8,14 @@ param(
   [Parameter(Mandatory=$false)][string]$Autonomy = "",
   [Parameter(Mandatory=$false)][string]$IncludeWorkspaceFile = "Yes (recommended)"
 )
+$ErrorActionPreference = "Stop"
+
+function Write-JsonLog([string]$Level, [string]$Message, [hashtable]$Data = @{}) {
+  $payload = [ordered]@{ timestamp = (Get-Date -Format "o"); level = $Level; message = $Message; data = $Data }
+  $payload | ConvertTo-Json -Compress | Write-Output
+}
+
+Write-JsonLog "info" "bootstrap.start" @{ mode = $Mode }
 $workspaceFilePath = Join-Path $PSScriptRoot "..\ai-governance.code-workspace"
 $templateWorkspaceFile = Join-Path $PSScriptRoot "..\templates\ai-governance.code-workspace"
 
@@ -28,6 +36,7 @@ $allowedDocumentation = @("inline", "comments-only", "generate")
 $allowedAutonomy = @("feature", "milestone", "fully-autonomous")
 
 if ([string]::IsNullOrWhiteSpace($Mode)) {
+  Write-JsonLog "error" "bootstrap.missing_mode" @{}
   throw "Missing bootstrap mode. Re-run the Governance Bootstrap task and select a mode."
 }
 
@@ -63,6 +72,7 @@ if (Test-Path $readmePath) {
 
 $specPath = Join-Path $PSScriptRoot "..\spec\SPECIFICATION.md"
 if (-not (Test-Path $specPath)) {
+  Write-JsonLog "error" "bootstrap.missing_spec" @{ path = $specPath }
   throw "Missing spec/SPECIFICATION.md. Create it before running bootstrap."
 }
 
@@ -103,3 +113,4 @@ $policy = [ordered]@{
 $policyPath = Join-Path $PSScriptRoot "..\governance.config.json"
 $policy | ConvertTo-Json -Depth 6 | Out-File -FilePath $policyPath -Encoding UTF8
 Write-Output "Wrote governance policy to $policyPath"
+Write-JsonLog "info" "bootstrap.policy_written" @{ path = $policyPath }

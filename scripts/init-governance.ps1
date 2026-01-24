@@ -4,17 +4,25 @@ param(
   [Parameter(Mandatory = $false)][string]$SpecPath = ""
 )
 
+function Write-JsonLog([string]$Level, [string]$Message, [hashtable]$Data = @{}) {
+  $payload = [ordered]@{ timestamp = (Get-Date -Format "o"); level = $Level; message = $Message; data = $Data }
+  $payload | ConvertTo-Json -Compress | Write-Output
+}
+
 if ($args.Count -gt 0) {
+  Write-JsonLog "error" "initgovernance.invalid_args" @{}
   throw "Exactly one argument is required: path to SPECIFICATION.md"
 }
 
 if ([string]::IsNullOrWhiteSpace($SpecPath)) {
+  Write-JsonLog "error" "initgovernance.missing_spec" @{}
   throw "Missing SPECIFICATION.md path. Usage: init-governance.ps1 <path-to-SPECIFICATION.md>"
 }
 
 $resolvedSpecPath = Resolve-Path $SpecPath -ErrorAction Stop
 $specLeaf = Split-Path $resolvedSpecPath -Leaf
 if ($specLeaf -ne "SPECIFICATION.md") {
+  Write-JsonLog "error" "initgovernance.invalid_spec_name" @{ name = $specLeaf }
   throw "Invalid spec filename. Expected SPECIFICATION.md"
 }
 
@@ -34,6 +42,7 @@ $requiredDirs = @(".ai", ".vscode", "scripts", "templates", "docs", "plans", "sr
 foreach ($dir in $requiredDirs) {
   $targetPath = Join-Path $targetRoot $dir
   if (Test-Path $targetPath) {
+    Write-JsonLog "error" "initgovernance.target_conflict" @{ path = $targetPath }
     throw "Target already contains $dir at $targetPath. Aborting to avoid overwrite."
   }
 }
@@ -52,6 +61,7 @@ $requiredFiles = @(
 foreach ($file in $requiredFiles) {
   $targetPath = Join-Path $targetRoot $file
   if (Test-Path $targetPath) {
+    Write-JsonLog "error" "initgovernance.target_conflict" @{ path = $targetPath }
     throw "Target already contains $file at $targetPath. Aborting to avoid overwrite."
   }
 }
@@ -82,3 +92,4 @@ if (-not (Test-Path (Join-Path $targetRoot "spec"))) {
 Copy-Item -Path $resolvedSpecPath -Destination (Join-Path $targetRoot "spec\SPECIFICATION.md") -Force
 
 Write-Output "Initialized governance repository in $targetRoot.\n\nPlaced SPECIFICATION.md in the 'spec' folder."
+Write-JsonLog "info" "initgovernance.done" @{ target = $targetRoot }

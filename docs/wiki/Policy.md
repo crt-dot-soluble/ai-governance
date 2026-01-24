@@ -3,6 +3,9 @@
 ## File
 - governance.config.json (preferred)
 
+## Schema
+- schemas/governance.schema.json
+
 ## Required Keys
 - version
 - policyGeneratedBy

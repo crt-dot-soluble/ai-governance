@@ -12,7 +12,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 POLICY_PATH="$REPO_ROOT/governance.config.json"
 
+log_json() {
+  local level="$1"; local message="$2"; local data="$3"
+  printf '{"timestamp":"%s","level":"%s","message":"%s","data":%s}\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$level" "$message" "$data"
+}
+
 if [ ! -f "$POLICY_PATH" ]; then
+  log_json "error" "policy.missing" "{\"path\":\"$POLICY_PATH\"}"
   echo "Missing governance.config.json at $POLICY_PATH"
   exit 1
 fi
@@ -83,3 +89,5 @@ with open(policy_path, "w", encoding="utf-8") as f:
 
 print(f"Updated governance policy at {policy_path}")
 PY
+
+log_json "info" "policy.update.done" "{\"path\":\"$POLICY_PATH\"}"

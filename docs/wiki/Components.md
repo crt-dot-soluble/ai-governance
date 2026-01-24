@@ -6,6 +6,8 @@ This page describes the major components of the governance system and how they f
 - **Supreme instructions:** .github/copilot-instructions.md
 - **Agent roles:** /.ai/agents/*
 - **Policy output:** governance.config.json (or POLICY.md if configured)
+- **Policy schema:** /schemas/governance.schema.json
+- **Manifest:** /manifest.json
 
 ## Workflow Inputs
 - **Primary contract:** /spec/SPECIFICATION.md

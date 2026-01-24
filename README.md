@@ -38,6 +38,8 @@ It contains no application code by design.
 | `.github/copilot-instructions.md` | Supreme AI instruction file |
 | `/.ai/agents/*` | Deterministic agent roles and rules |
 | `governance.config.json` | Machine-readable policy (bootstrap output) |
+| `/schemas/governance.schema.json` | Policy schema contract (JSON Schema) |
+| `/manifest.json` | Machine-readable inventory for tool discovery |
 | `/scripts/` | Bootstrap, policy update, and validation tooling |
 | `/templates/` | Source-of-truth templates for root governance files |
 | `/spec/` | Implementation spec (primary input) |
@@ -64,12 +66,17 @@ It contains no application code by design.
 | Governance Git Init | Initializes git if not present. |
 | Governance Wiki Sync | Syncs docs/wiki to the GitHub wiki. |
 | Governance Self-Audit | Runs sanity checks and writes .vscode/audit.json. |
+| Governance Report Bundle | Packages audit/tooling/policy/spec for CI ingestion. |
 | Governance Bootstrap | Runs the bootstrap process and creates policy. |
 | Governance Policy Revision | Updates policy values using pickers. |
 | Set Autonomy Policy | Updates the autonomy/stop contract. |
 | Set Workflow Mode | Updates version control policy. |
 | Start Spec Implementation | Verifies policy/spec and starts implementation phase. |
 | Activate ARCHITECT/GIT/DEBUG/... Agent | Echoes which agent is active and points to its spec. |
+
+## Headless Mode
+
+All scripts are non-interactive and accept arguments only. Use VS Code tasks or run scripts directly with flags/args for deterministic automation.
 
 ## Documentation
 

@@ -13,9 +13,11 @@ This repository enforces a fixed structure so governance is deterministic and au
 - /docs/
 - /src/
 - /templates/
+- /schemas/
 - MEMORY-LEDGER.md
 - TODO-LEDGER.md
 - CHANGELOG.md
+- manifest.json
 
 ## Key Components
 
@@ -23,6 +25,8 @@ This repository enforces a fixed structure so governance is deterministic and au
 - .github/copilot-instructions.md — supreme instruction file
 - /.ai/ — agent roles and shared rules
 - governance.config.json — machine-readable policy (bootstrap output)
+- schemas/governance.schema.json — policy schema contract
+- manifest.json — machine-readable inventory
 
 ### Process Inputs
 - /spec/SPECIFICATION.md — primary contract for work

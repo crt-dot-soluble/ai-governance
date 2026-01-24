@@ -23,6 +23,9 @@ Initializes git in the current repo if not already present.
 ## Governance Wiki Sync
 Syncs docs/wiki to the GitHub wiki.
 
+## Governance Report Bundle
+Packages audit.json, tooling.json, governance.config.json, and SPECIFICATION.md for CI ingestion.
+
 ## Governance Self-Audit
 Runs the sanity/audit checks and writes .vscode/audit.json.
 
@@ -46,3 +49,6 @@ Verifies governance policy and spec exist, then signals that implementation can 
 ## Input Rules
 - Use pickers for predefined options.
 - Text input is reserved for large code payloads or explicit human intervention due to roadblocks.
+
+## Headless Mode
+All scripts are non-interactive and accept arguments only, enabling deterministic automation.

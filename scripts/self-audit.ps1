@@ -1,6 +1,14 @@
 param(
   [Parameter(Mandatory = $false)][string]$OutputPath = ""
 )
+$ErrorActionPreference = "Stop"
+
+function Write-JsonLog([string]$Level, [string]$Message, [hashtable]$Data = @{}) {
+  $payload = [ordered]@{ timestamp = (Get-Date -Format "o"); level = $Level; message = $Message; data = $Data }
+  $payload | ConvertTo-Json -Compress | Write-Output
+}
+
+$null = Write-JsonLog "info" "selfaudit.start" @{}
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
 if ([string]::IsNullOrWhiteSpace($OutputPath)) {
@@ -15,7 +23,7 @@ if (-not (Test-Path $targetDir)) {
 $errors = @()
 $warnings = @()
 
-$requiredDirs = @(".ai", ".vscode", "scripts", "templates", "docs", "plans", "src", "spec", ".github")
+$requiredDirs = @(".ai", ".vscode", "scripts", "templates", "docs", "plans", "src", "spec", ".github", "schemas")
 foreach ($dir in $requiredDirs) {
   if (-not (Test-Path (Join-Path $repoRoot $dir))) {
     $errors += "Missing required directory: $dir"
@@ -36,6 +44,15 @@ if (-not (Test-Path $policyConfig) -and -not (Test-Path $policyAlt)) {
 }
 
 $specPath = Join-Path $repoRoot "spec\SPECIFICATION.md"
+$schemaPath = Join-Path $repoRoot "schemas\governance.schema.json"
+if (-not (Test-Path $schemaPath)) {
+  $errors += "Missing schema: schemas/governance.schema.json"
+}
+
+$manifestPath = Join-Path $repoRoot "manifest.json"
+if (-not (Test-Path $manifestPath)) {
+  $errors += "Missing manifest.json"
+}
 if (-not (Test-Path $specPath)) {
   $errors += "Missing spec/SPECIFICATION.md"
 }
@@ -50,13 +67,18 @@ if (-not (Test-Path $tasksPath)) {
     foreach ($task in $tasksJson.tasks) { $labels += $task.label }
     $requiredTasks = @(
       "Governance Preflight",
+      "Governance Init Repository",
+      "Governance Policy Validate",
+      "Governance Git Init",
+      "Governance Wiki Sync",
+      "Governance Self-Audit",
       "Governance Bootstrap",
       "Governance Bootstrap (Defaults)",
       "Governance Policy Revision",
       "Set Autonomy Policy",
       "Set Workflow Mode",
       "Start Spec Implementation",
-      "Governance Self-Audit"
+      "Governance Report Bundle"
     )
     foreach ($label in $requiredTasks) {
       if (-not ($labels -contains $label)) {
@@ -111,8 +133,10 @@ $report = [ordered]@{
 $report | ConvertTo-Json -Depth 6 | Out-File -FilePath $OutputPath -Encoding UTF8
 
 if ($errors.Count -gt 0) {
+  Write-JsonLog "error" "selfaudit.failed" @{ output = $OutputPath; errors = $errors }
   Write-Error "Self-audit failed. See $OutputPath"
   exit 1
 }
 
 Write-Output "Self-audit passed. Report written to $OutputPath"
+Write-JsonLog "info" "selfaudit.passed" @{ output = $OutputPath }

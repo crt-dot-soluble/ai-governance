@@ -2,6 +2,11 @@ param(
   [Parameter(Mandatory = $false)][string]$OutputPath = ""
 )
 
+function Write-JsonLog([string]$Level, [string]$Message, [hashtable]$Data = @{}) {
+  $payload = [ordered]@{ timestamp = (Get-Date -Format "o"); level = $Level; message = $Message; data = $Data }
+  $payload | ConvertTo-Json -Compress | Write-Output
+}
+
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
 if ([string]::IsNullOrWhiteSpace($OutputPath)) {
   $OutputPath = Join-Path $repoRoot ".vscode\tooling.json"
@@ -37,3 +42,4 @@ $report = [ordered]@{
 
 $report | ConvertTo-Json -Depth 4 | Out-File -FilePath $OutputPath -Encoding UTF8
 Write-Output "Tooling report written to $OutputPath"
+Write-JsonLog "info" "tooling.detect.done" @{ path = $OutputPath }

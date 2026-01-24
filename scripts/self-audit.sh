@@ -5,6 +5,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 OUTPUT_PATH="${1:-$REPO_ROOT/.vscode/audit.json}"
 
+log_json() {
+  local level="$1"; local message="$2"; local data="$3"
+  printf '{"timestamp":"%s","level":"%s","message":"%s","data":%s}\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$level" "$message" "$data"
+}
+
 PYTHON_BIN=""
 if command -v python3 >/dev/null 2>&1; then
   PYTHON_BIN="python3"
@@ -12,6 +17,7 @@ elif command -v python >/dev/null 2>&1; then
   PYTHON_BIN="python"
 fi
 if [ -z "$PYTHON_BIN" ]; then
+  log_json "error" "selfaudit.missing_python" "{}"
   echo "Python is required for self-audit.sh (python3 or python)." >&2
   exit 1
 fi
@@ -30,7 +36,7 @@ os.makedirs(os.path.dirname(output_path), exist_ok=True)
 errors = []
 warnings = []
 
-required_dirs = [".ai", ".vscode", "scripts", "templates", "docs", "plans", "src", "spec", ".github"]
+required_dirs = [".ai", ".vscode", "scripts", "templates", "docs", "plans", "src", "spec", ".github", "schemas"]
 for d in required_dirs:
   if not os.path.isdir(os.path.join(repo_root, d)):
     errors.append(f"Missing required directory: {d}")
@@ -49,6 +55,14 @@ spec_path = os.path.join(repo_root, "spec", "SPECIFICATION.md")
 if not os.path.isfile(spec_path):
   errors.append("Missing spec/SPECIFICATION.md")
 
+schema_path = os.path.join(repo_root, "schemas", "governance.schema.json")
+if not os.path.isfile(schema_path):
+  errors.append("Missing schema: schemas/governance.schema.json")
+
+manifest_path = os.path.join(repo_root, "manifest.json")
+if not os.path.isfile(manifest_path):
+  errors.append("Missing manifest.json")
+
 tasks_path = os.path.join(repo_root, ".vscode", "tasks.json")
 if not os.path.isfile(tasks_path):
   errors.append("Missing .vscode/tasks.json")
@@ -59,13 +73,18 @@ else:
     labels = [t.get("label") for t in tasks_json.get("tasks", [])]
     required_tasks = [
       "Governance Preflight",
+      "Governance Init Repository",
+      "Governance Policy Validate",
+      "Governance Git Init",
+      "Governance Wiki Sync",
+      "Governance Self-Audit",
       "Governance Bootstrap",
       "Governance Bootstrap (Defaults)",
       "Governance Policy Revision",
       "Set Autonomy Policy",
       "Set Workflow Mode",
       "Start Spec Implementation",
-      "Governance Self-Audit",
+      "Governance Report Bundle",
     ]
     for label in required_tasks:
       if label not in labels:
@@ -109,8 +128,22 @@ with open(output_path, "w", encoding="utf-8") as f:
   json.dump(report, f, indent=2)
 
 if errors:
+  log = {
+    "timestamp": datetime.utcnow().isoformat() + "Z",
+    "level": "error",
+    "message": "selfaudit.failed",
+    "data": {"output": output_path, "errors": errors},
+  }
+  sys.stdout.write(json.dumps(log) + "\n")
   sys.stderr.write(f"Self-audit failed. See {output_path}\n")
   sys.exit(1)
 
+log = {
+  "timestamp": datetime.utcnow().isoformat() + "Z",
+  "level": "info",
+  "message": "selfaudit.passed",
+  "data": {"output": output_path},
+}
+sys.stdout.write(json.dumps(log) + "\n")
 print(f"Self-audit passed. Report written to {output_path}")
 PY
