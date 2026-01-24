@@ -91,9 +91,9 @@ Run these tasks to refresh the artifacts:
 - Governance Report Bundle
 
 Artifacts:
-- [Audit report](.vscode/audit.json)
-- [Tooling report](.vscode/tooling.json)
-- [Report bundle](.vscode/report-bundle.zip)
+- [Audit report](reports/audit.json)
+- [Tooling report](reports/tooling.json)
+- [Report bundle](reports/report-bundle.zip)
 
 ## Documentation
 

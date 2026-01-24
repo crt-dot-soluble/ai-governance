@@ -51,5 +51,10 @@
         "Set Workflow Mode",
         "Start Spec Implementation",
         "Governance Report Bundle"
+    ],
+    "reports": [
+        "reports/audit.json",
+        "reports/tooling.json",
+        "reports/report-bundle.zip"
     ]
 }
