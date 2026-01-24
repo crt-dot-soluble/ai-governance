@@ -82,6 +82,19 @@ All scripts are non-interactive and accept arguments only. Use VS Code tasks or 
 
 No language runtime dependencies are required for the Bash scripts. They use standard shell tooling only. The report bundle uses zip when available; otherwise it falls back to tar.gz.
 
+## Validation Artifacts (Latest Run)
+
+Run these tasks to refresh the artifacts:
+- Governance Preflight
+- Governance Self-Audit
+- Governance Policy Validate
+- Governance Report Bundle
+
+Artifacts:
+- [Audit report](.vscode/audit.json)
+- [Tooling report](.vscode/tooling.json)
+- [Report bundle](.vscode/report-bundle.zip)
+
 ## Documentation
 
 See the local wiki fallback in /docs/wiki (or the GitHub wiki) for full details.
