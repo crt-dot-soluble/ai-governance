@@ -1,9 +1,30 @@
 
 # Support both param and $args for one-liner execution
+param(
+  [Parameter(Mandatory = $false)][string]$SpecPath = ""
+)
 
+if ($args.Count -gt 0) {
+  throw "Exactly one argument is required: path to SPECIFICATION.md"
+}
 
-# No arguments required. Run this script inside your new project folder. It will scaffold governance structure in the current directory.
-$targetRoot = Get-Location
+if ([string]::IsNullOrWhiteSpace($SpecPath)) {
+  throw "Missing SPECIFICATION.md path. Usage: init-governance.ps1 <path-to-SPECIFICATION.md>"
+}
+
+$resolvedSpecPath = Resolve-Path $SpecPath -ErrorAction Stop
+$specLeaf = Split-Path $resolvedSpecPath -Leaf
+if ($specLeaf -ne "SPECIFICATION.md") {
+  throw "Invalid spec filename. Expected SPECIFICATION.md"
+}
+
+$specDir = Split-Path $resolvedSpecPath -Parent
+$specDirLeaf = Split-Path $specDir -Leaf
+if ($specDirLeaf -ieq "spec") {
+  $targetRoot = Split-Path $specDir -Parent
+} else {
+  $targetRoot = $specDir
+}
 
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
@@ -58,4 +79,6 @@ if (-not (Test-Path (Join-Path $targetRoot "spec"))) {
   New-Item -ItemType Directory -Force -Path (Join-Path $targetRoot "spec") | Out-Null
 }
 
-Write-Output "Initialized governance repository in $targetRoot.\n\nPlease manually place your SPECIFICATION.md in the 'spec' folder."
+Copy-Item -Path $resolvedSpecPath -Destination (Join-Path $targetRoot "spec\SPECIFICATION.md") -Force
+
+Write-Output "Initialized governance repository in $targetRoot.\n\nPlaced SPECIFICATION.md in the 'spec' folder."

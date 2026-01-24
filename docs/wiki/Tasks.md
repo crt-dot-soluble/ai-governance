@@ -11,6 +11,9 @@ Runs bootstrap in defaults mode without prompting for additional options.
 ## Governance Preflight
 Detects installed tools and writes a report to .vscode/tooling.json. Bootstrap and policy tasks depend on this preflight step.
 
+## Governance Self-Audit
+Runs the sanity/audit checks and writes .vscode/audit.json.
+
 ## Governance Policy Revision
 Updates policy values using native pickers.
 
@@ -22,6 +25,11 @@ Updates version control policy (git local/remote/ci).
 
 ## Start Spec Implementation
 Verifies governance policy and spec exist, then signals that implementation can begin from spec/SPECIFICATION.md.
+
+## Workflow Alignment
+- Phase 0: Governance Bootstrap, Governance Preflight
+- Phase 1+: Start Spec Implementation and any implementation tasks
+- Policy Changes: Governance Policy Revision, Set Autonomy Policy, Set Workflow Mode
 
 ## Input Rules
 - Use pickers for predefined options.

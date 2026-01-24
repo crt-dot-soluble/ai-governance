@@ -6,6 +6,9 @@ The preflight task checks installed tooling and writes a report to .vscode/tooli
 - Provide a machine-first snapshot of available tools (git, python, node, etc.).
 - Allow tasks to fail fast with clear errors when required tooling is missing.
 
+## Workflow Placement
+Preflight is the first step before bootstrap and any policy changes. It ensures the governance pipeline can be executed deterministically.
+
 ## Output
 - .vscode/tooling.json
 

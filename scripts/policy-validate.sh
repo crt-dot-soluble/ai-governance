@@ -29,8 +29,8 @@ required = [
   "documentation", "language", "autonomy", "phases", "ciCdEnforced", "remoteRequired"
 ]
 policy_path = os.environ.get("POLICY_PATH") or "governance.config.json"
-with open(policy_path, "r", encoding="utf-8") as f:
-  data = json.load(open(policy_path, "r", encoding="utf-8-sig"))
+with open(policy_path, "r", encoding="utf-8-sig") as f:
+  data = json.load(f)
 missing = [k for k in required if k not in data]
 if missing:
   raise SystemExit(f"Missing policy keys: {missing}")

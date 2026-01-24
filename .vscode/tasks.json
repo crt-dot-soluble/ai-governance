@@ -143,6 +143,29 @@
       }
     },
     {
+      "label": "Governance Self-Audit",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/self-audit.ps1"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "scripts/self-audit.sh"
+        ]
+      },
+      "osx": {
+        "command": "bash",
+        "args": [
+          "scripts/self-audit.sh"
+        ]
+      }
+    },
+    {
       "label": "Governance Policy Revision",
       "type": "shell",
       "dependsOn": [

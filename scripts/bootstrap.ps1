@@ -13,10 +13,6 @@ $templateWorkspaceFile = Join-Path $PSScriptRoot "..\templates\ai-governance.cod
 
 $shouldCopyWorkspace = $IncludeWorkspaceFile -eq "Yes (recommended)"
 
-$policyPath = Join-Path $PSScriptRoot "..\governance.config.json"
-$policy | ConvertTo-Json -Depth 6 | Out-File -FilePath $policyPath -Encoding UTF8
-Write-Output "Wrote governance policy to $policyPath"
-
 # Copy workspace file if requested and not already present
 if ($shouldCopyWorkspace -and -not (Test-Path $workspaceFilePath)) {
   if (Test-Path $templateWorkspaceFile) {

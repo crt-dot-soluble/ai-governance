@@ -36,5 +36,10 @@
 - milestone
 - fully-autonomous
 
-## Effect
-Once policy exists, it overrides specification defaults.
+## Behavioral Effects
+- The policy overrides all defaults once generated.
+- Phase enforcement and stop contracts derive from policy.
+- Tasks and scripts read the policy to determine required steps.
+
+## Updates
+Policy changes must be executed via the VS Code tasks to ensure deterministic auditability.

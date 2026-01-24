@@ -2,8 +2,29 @@
 set -euo pipefail
 
 
-# No arguments required. Run this script inside your new project folder. It will scaffold governance structure in the current directory.
-TARGET_ROOT="$PWD"
+if [ "$#" -ne 1 ]; then
+  echo "Exactly one argument is required: path to SPECIFICATION.md" >&2
+  exit 1
+fi
+
+SPEC_PATH="$1"
+if [ ! -f "$SPEC_PATH" ]; then
+  echo "SPECIFICATION.md not found at $SPEC_PATH" >&2
+  exit 1
+fi
+
+SPEC_BASENAME="$(basename "$SPEC_PATH")"
+if [ "$SPEC_BASENAME" != "SPECIFICATION.md" ]; then
+  echo "Invalid spec filename. Expected SPECIFICATION.md" >&2
+  exit 1
+fi
+
+SPEC_DIR="$(cd "$(dirname "$SPEC_PATH")" && pwd)"
+if [ "$(basename "$SPEC_DIR")" = "spec" ]; then
+  TARGET_ROOT="$(cd "$SPEC_DIR/.." && pwd)"
+else
+  TARGET_ROOT="$SPEC_DIR"
+fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
@@ -18,7 +39,7 @@ for dir in "${required_dirs[@]}"; do
 done
 
 
-required_files=(CONSTITUTION.md CHANGELOG.md MEMORY-LEDGER.md TODO-LEDGER.md README.md governance.config.json)
+required_files=(CONSTITUTION.md CHANGELOG.md MEMORY-LEDGER.md TODO-LEDGER.md README.md governance.config.json ai-governance.code-workspace)
 for file in "${required_files[@]}"; do
   if [ -e "$TARGET_ROOT/$file" ]; then
     echo "Target already contains $file at $TARGET_ROOT/$file. Aborting to avoid overwrite." >&2
@@ -42,7 +63,10 @@ cp "$REPO_ROOT/templates/MEMORY-LEDGER.md" "$TARGET_ROOT/MEMORY-LEDGER.md"
 cp "$REPO_ROOT/templates/TODO-LEDGER.md" "$TARGET_ROOT/TODO-LEDGER.md"
 cp "$REPO_ROOT/templates/README.md" "$TARGET_ROOT/README.md"
 cp "$REPO_ROOT/governance.config.json" "$TARGET_ROOT/governance.config.json"
+cp "$REPO_ROOT/templates/ai-governance.code-workspace" "$TARGET_ROOT/ai-governance.code-workspace"
 
 mkdir -p "$TARGET_ROOT/spec"
 
-echo "Initialized governance repository in $TARGET_ROOT.\n\nPlease manually place your SPECIFICATION.md in the 'spec' folder."
+cp "$SPEC_PATH" "$TARGET_ROOT/spec/SPECIFICATION.md"
+
+echo "Initialized governance repository in $TARGET_ROOT.\n\nPlaced SPECIFICATION.md in the 'spec' folder."

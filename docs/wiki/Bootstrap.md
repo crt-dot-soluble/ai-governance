@@ -27,6 +27,9 @@ Bootstrap generates exactly one policy artifact:
 - governance.config.json (preferred), OR
 - POLICY.md
 
+## Workflow Placement
+Bootstrap is Phase 0 of the governance workflow. It produces the policy that all later phases enforce.
+
 ## Post-Bootstrap Focus
 Immediately after bootstrap completes, the next task is to load and follow ./spec/SPECIFICATION.md.
 
