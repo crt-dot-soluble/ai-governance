@@ -78,6 +78,10 @@ It contains no application code by design.
 
 All scripts are non-interactive and accept arguments only. Use VS Code tasks or run scripts directly with flags/args for deterministic automation.
 
+## Dependencies
+
+No language runtime dependencies are required for the Bash scripts. They use standard shell tooling only. The report bundle uses zip when available; otherwise it falls back to tar.gz.
+
 ## Documentation
 
 See the local wiki fallback in /docs/wiki (or the GitHub wiki) for full details.

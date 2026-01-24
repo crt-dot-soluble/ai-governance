@@ -42,10 +42,12 @@
 - Non-functional requirements:
 	- Scripts must be fast, deterministic, and have clear error messages.
 	- PowerShell and Bash implementations must be equivalent.
+	- Bash scripts must not require language runtime dependencies (no Python/Node).
 - Constraints:
 	- No interactive text prompts for governance selections.
 	- Only one CLI argument is permitted for the initializer.
 	- VS Code Tasks cannot dynamically disable picker options without a custom extension; preflight output is informational.
+	- Report bundle on Unix must use zip if available, otherwise tar.gz.
 
 ## Interfaces
 - Inputs:

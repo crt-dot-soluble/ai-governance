@@ -22,72 +22,142 @@ if [ ! -f "$POLICY_PATH" ]; then
   echo "Missing governance.config.json at $POLICY_PATH"
   exit 1
 fi
+get_string() {
+  sed -n "s/^[[:space:]]*\"$1\"[[:space:]]*:[[:space:]]*\"\([^\"]*\)\".*/\1/p" "$POLICY_PATH" | head -n1
+}
 
-PYTHON_BIN=""
-if command -v python3 >/dev/null 2>&1; then
-  PYTHON_BIN="python3"
-elif command -v python >/dev/null 2>&1; then
-  PYTHON_BIN="python"
+get_bool() {
+  sed -n "s/^[[:space:]]*\"$1\"[[:space:]]*:[[:space:]]*\(true\|false\).*/\1/p" "$POLICY_PATH" | head -n1
+}
+
+get_array_raw() {
+  sed -n "s/.*\"$1\"[[:space:]]*:[[:space:]]*\[\(.*\)\].*/\1/p" "$POLICY_PATH" | head -n1
+}
+
+json_escape() {
+  printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
+current_version="$(get_string version)"
+current_generated="$(get_string policyGeneratedBy)"
+bootstrap_mode="$(get_string mode)"
+bootstrap_skipped="$(get_bool skipped)"
+bootstrap_timestamp="$(get_string timestamp)"
+current_version_control="$(get_string versionControl)"
+current_testing="$(get_string testing)"
+current_documentation="$(get_string documentation)"
+current_language="$(get_string primary)"
+current_frameworks_raw="$(get_array_raw frameworks)"
+current_autonomy="$(get_string autonomy)"
+current_phases_required="$(get_bool required)"
+current_phases_list_raw="$(get_array_raw list)"
+current_cicd="$(get_bool ciCdEnforced)"
+
+current_version="${current_version:-1.0.0}"
+current_generated="${current_generated:-bootstrap}"
+bootstrap_mode="${bootstrap_mode:-defaults}"
+bootstrap_skipped="${bootstrap_skipped:-true}"
+bootstrap_timestamp="${bootstrap_timestamp:-$(date +%Y-%m-%d)}"
+current_phases_required="${current_phases_required:-true}"
+current_phases_list_raw="${current_phases_list_raw:-0, 1, 2, 3, 4, 5}"
+current_cicd="${current_cicd:-true}"
+
+version_control="$current_version_control"
+testing="$current_testing"
+documentation="$current_documentation"
+language="$current_language"
+autonomy="$current_autonomy"
+
+if [ -n "$VERSION_CONTROL" ]; then
+  case "$VERSION_CONTROL" in
+    git-local|git-remote|git-remote-ci) ;;
+    *) echo "Invalid VersionControl" >&2; exit 1 ;;
+  esac
+  version_control="$VERSION_CONTROL"
 fi
-if [ -z "$PYTHON_BIN" ]; then
-  echo "Python is required for policy-update.sh (python3 or python)." >&2
-  exit 1
+
+if [ -n "$TESTING" ]; then
+  case "$TESTING" in
+    full|baseline) ;;
+    *) echo "Invalid Testing" >&2; exit 1 ;;
+  esac
+  testing="$TESTING"
 fi
 
-POLICY_PATH="$POLICY_PATH" VERSION_CONTROL="$VERSION_CONTROL" TESTING="$TESTING" DOCUMENTATION="$DOCUMENTATION" LANGUAGE="$LANGUAGE" FRAMEWORKS="$FRAMEWORKS" AUTONOMY="$AUTONOMY" "$PYTHON_BIN" - <<'PY'
-import json
-import os
+if [ -n "$DOCUMENTATION" ]; then
+  case "$DOCUMENTATION" in
+    inline|comments-only|generate) ;;
+    *) echo "Invalid Documentation" >&2; exit 1 ;;
+  esac
+  documentation="$DOCUMENTATION"
+fi
 
-version_control = os.environ.get("VERSION_CONTROL", "")
-testing = os.environ.get("TESTING", "")
-documentation = os.environ.get("DOCUMENTATION", "")
-language = os.environ.get("LANGUAGE", "")
-frameworks = os.environ.get("FRAMEWORKS", "")
-autonomy = os.environ.get("AUTONOMY", "")
+if [ -n "$LANGUAGE" ]; then
+  language="$LANGUAGE"
+fi
 
-allowed_version_control = {"git-local", "git-remote", "git-remote-ci"}
-allowed_testing = {"full", "baseline"}
-allowed_documentation = {"inline", "comments-only", "generate"}
-allowed_autonomy = {"feature", "milestone", "fully-autonomous"}
+if [ -n "$AUTONOMY" ]; then
+  case "$AUTONOMY" in
+    feature|milestone|fully-autonomous) ;;
+    *) echo "Invalid Autonomy" >&2; exit 1 ;;
+  esac
+  autonomy="$AUTONOMY"
+fi
 
-policy_path = os.environ.get("POLICY_PATH") or "governance.config.json"
-with open(policy_path, "r", encoding="utf-8") as f:
-  policy = json.load(f)
+frameworks_json="[]"
+if [ -n "$FRAMEWORKS" ]; then
+  if [ "$FRAMEWORKS" = "None" ]; then
+    frameworks_json="[]"
+  else
+    IFS=',' read -r -a fw_items <<< "$FRAMEWORKS"
+    fw_join=""
+    for item in "${fw_items[@]}"; do
+      item="$(printf '%s' "$item" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+      [ -z "$item" ] && continue
+      esc="$(json_escape "$item")"
+      if [ -n "$fw_join" ]; then
+        fw_join+=" , "
+      fi
+      fw_join+="\"$esc\""
+    done
+    frameworks_json="[$fw_join]"
+  fi
+else
+  if [ -n "$current_frameworks_raw" ]; then
+    frameworks_json="[$current_frameworks_raw]"
+  fi
+fi
 
-if version_control:
-  if version_control not in allowed_version_control:
-    raise SystemExit("Invalid VersionControl")
-  policy["versionControl"] = version_control
-  policy["remoteRequired"] = version_control != "git-local"
+phases_required="${current_phases_required:-true}"
+phases_list="${current_phases_list_raw:-0, 1, 2, 3, 4, 5}"
 
-if testing:
-  if testing not in allowed_testing:
-    raise SystemExit("Invalid Testing")
-  policy["testing"] = testing
+remote_required="true"
+if [ "$version_control" = "git-local" ]; then
+  remote_required="false"
+fi
 
-if documentation:
-  if documentation not in allowed_documentation:
-    raise SystemExit("Invalid Documentation")
-  policy["documentation"] = documentation
+cat > "$POLICY_PATH" <<JSON
+{
+  "version": "${current_version}",
+  "policyGeneratedBy": "${current_generated}",
+  "bootstrap": {
+    "mode": "${bootstrap_mode}",
+    "skipped": ${bootstrap_skipped},
+    "timestamp": "${bootstrap_timestamp}"
+  },
+  "versionControl": "${version_control}",
+  "testing": "${testing}",
+  "documentation": "${documentation}",
+  "language": {
+    "primary": "${language}",
+    "frameworks": ${frameworks_json}
+  },
+  "autonomy": "${autonomy}",
+  "phases": {"required": ${phases_required}, "list": [${phases_list}]},
+  "ciCdEnforced": ${current_cicd},
+  "remoteRequired": ${remote_required}
+}
+JSON
 
-if language:
-  policy["language"]["primary"] = language
-
-if frameworks:
-  if frameworks == "None":
-    policy["language"]["frameworks"] = []
-  else:
-    policy["language"]["frameworks"] = [f.strip() for f in frameworks.split(",") if f.strip()]
-
-if autonomy:
-  if autonomy not in allowed_autonomy:
-    raise SystemExit("Invalid Autonomy")
-  policy["autonomy"] = autonomy
-
-with open(policy_path, "w", encoding="utf-8") as f:
-  json.dump(policy, f, indent=2)
-
-print(f"Updated governance policy at {policy_path}")
-PY
-
+echo "Updated governance policy at $POLICY_PATH"
 log_json "info" "policy.update.done" "{\"path\":\"$POLICY_PATH\"}"

@@ -9,16 +9,6 @@ log_json() {
   printf '{"timestamp":"%s","level":"%s","message":"%s","data":%s}\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$level" "$message" "$data"
 }
 
-PYTHON_BIN=""
-if command -v python3 >/dev/null 2>&1; then
-  PYTHON_BIN="python3"
-elif command -v python >/dev/null 2>&1; then
-  PYTHON_BIN="python"
-fi
-if [ -z "$PYTHON_BIN" ]; then
-  echo "Python is required for bootstrap.sh (python3 or python)." >&2
-  exit 1
-fi
 
 MODE="${1:-}"
 VERSION_CONTROL="${2:-}"
@@ -93,42 +83,62 @@ if [ ! -f "$SPEC_PATH" ]; then
   exit 1
 fi
 
-MODE="$MODE" VERSION_CONTROL="$VERSION_CONTROL" TESTING="$TESTING" DOCUMENTATION="$DOCUMENTATION" LANGUAGE="$LANGUAGE" FRAMEWORKS="$FRAMEWORKS" AUTONOMY="$AUTONOMY" REPO_ROOT="$REPO_ROOT" "$PYTHON_BIN" - <<'PY'
-import json, os, datetime
-mode = os.environ.get("MODE")
-version_control = os.environ.get("VERSION_CONTROL")
-testing = os.environ.get("TESTING")
-documentation = os.environ.get("DOCUMENTATION")
-language = os.environ.get("LANGUAGE")
-frameworks = os.environ.get("FRAMEWORKS", "")
-autonomy = os.environ.get("AUTONOMY")
+json_escape() {
+  printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
 
-policy = {
+frameworks_json="[]"
+if [ -n "$FRAMEWORKS" ]; then
+  IFS=',' read -r -a fw_items <<< "$FRAMEWORKS"
+  fw_join=""
+  for item in "${fw_items[@]}"; do
+    item="$(printf '%s' "$item" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+    [ -z "$item" ] && continue
+    esc="$(json_escape "$item")"
+    if [ -n "$fw_join" ]; then
+      fw_join+=" , "
+    fi
+    fw_join+="\"$esc\""
+  done
+  if [ -n "$fw_join" ]; then
+    frameworks_json="[$fw_join]"
+  fi
+fi
+
+timestamp="$(date +%Y-%m-%d)"
+skipped="false"
+if [ "$MODE" != "customize" ]; then
+  skipped="true"
+fi
+
+remote_required="true"
+if [ "$VERSION_CONTROL" = "git-local" ]; then
+  remote_required="false"
+fi
+
+cat > "${REPO_ROOT}/governance.config.json" <<JSON
+{
   "version": "1.0.0",
   "policyGeneratedBy": "bootstrap",
   "bootstrap": {
-    "mode": mode,
-    "skipped": mode != "customize",
-    "timestamp": datetime.date.today().isoformat()
+    "mode": "${MODE}",
+    "skipped": ${skipped},
+    "timestamp": "${timestamp}"
   },
-  "versionControl": version_control,
-  "testing": testing,
-  "documentation": documentation,
+  "versionControl": "${VERSION_CONTROL}",
+  "testing": "${TESTING}",
+  "documentation": "${DOCUMENTATION}",
   "language": {
-    "primary": language,
-    "frameworks": [f.strip() for f in frameworks.split(",") if f.strip()]
+    "primary": "${LANGUAGE}",
+    "frameworks": ${frameworks_json}
   },
-  "autonomy": autonomy,
-  "phases": {"required": True, "list": [0,1,2,3,4,5]},
-  "ciCdEnforced": True,
-  "remoteRequired": version_control != "git-local"
+  "autonomy": "${AUTONOMY}",
+  "phases": {"required": true, "list": [0, 1, 2, 3, 4, 5]},
+  "ciCdEnforced": true,
+  "remoteRequired": ${remote_required}
 }
+JSON
 
-repo_root = os.environ.get("REPO_ROOT") or os.getcwd()
-with open(os.path.join(repo_root, "governance.config.json"), "w", encoding="utf-8") as f:
-  json.dump(policy, f, indent=2)
-
-print("Wrote governance policy to governance.config.json")
-PY
+echo "Wrote governance policy to governance.config.json"
 
 log_json "info" "bootstrap.policy_written" "{\"path\":\"$REPO_ROOT/governance.config.json\"}"

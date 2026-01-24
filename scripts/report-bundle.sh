@@ -10,16 +10,9 @@ log_json() {
   printf '{"timestamp":"%s","level":"%s","message":"%s","data":%s}\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$level" "$message" "$data"
 }
 
-PYTHON_BIN=""
-if command -v python3 >/dev/null 2>&1; then
-  PYTHON_BIN="python3"
-elif command -v python >/dev/null 2>&1; then
-  PYTHON_BIN="python"
-fi
-if [ -z "$PYTHON_BIN" ]; then
-  log_json "error" "Python required for report-bundle" "{}"
-  echo "Python is required for report-bundle.sh (python3 or python)." >&2
-  exit 1
+ZIP_BIN=""
+if command -v zip >/dev/null 2>&1; then
+  ZIP_BIN="zip"
 fi
 
 FILES=("$REPO_ROOT/.vscode/audit.json" "$REPO_ROOT/.vscode/tooling.json" "$REPO_ROOT/governance.config.json" "$REPO_ROOT/spec/SPECIFICATION.md")
@@ -34,20 +27,21 @@ done
 mkdir -p "$(dirname "$OUTPUT_PATH")"
 rm -f "$OUTPUT_PATH"
 
-log_json "info" "Creating report bundle" "{\"output\":\"$OUTPUT_PATH\"}"
-REPO_ROOT="$REPO_ROOT" OUTPUT_PATH="$OUTPUT_PATH" FILES_JSON='[]' "$PYTHON_BIN" - <<'PY'
-import json, os, sys, zipfile
-repo_root = os.environ.get("REPO_ROOT")
-output_path = os.environ.get("OUTPUT_PATH")
-files = [
-  os.path.join(repo_root, ".vscode", "audit.json"),
-  os.path.join(repo_root, ".vscode", "tooling.json"),
-  os.path.join(repo_root, "governance.config.json"),
-  os.path.join(repo_root, "spec", "SPECIFICATION.md"),
-]
-with zipfile.ZipFile(output_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
-  for f in files:
-    arc = os.path.relpath(f, repo_root)
-    zf.write(f, arc)
-PY
-log_json "info" "Report bundle created" "{\"output\":\"$OUTPUT_PATH\"}"
+OUTPUT_PATH_ABS="$OUTPUT_PATH"
+case "$OUTPUT_PATH" in
+  /*) ;;
+  *) OUTPUT_PATH_ABS="$REPO_ROOT/$OUTPUT_PATH";;
+esac
+
+if [ -n "$ZIP_BIN" ]; then
+  log_json "info" "report.bundle.create" "{\"output\":\"$OUTPUT_PATH_ABS\",\"format\":\"zip\"}"
+  (cd "$REPO_ROOT" && zip -r "$OUTPUT_PATH_ABS" ".vscode/audit.json" ".vscode/tooling.json" "governance.config.json" "spec/SPECIFICATION.md" >/dev/null)
+else
+  case "$OUTPUT_PATH_ABS" in
+    *.zip) OUTPUT_PATH_ABS="${OUTPUT_PATH_ABS%.zip}.tar.gz" ;;
+  esac
+  log_json "info" "report.bundle.create" "{\"output\":\"$OUTPUT_PATH_ABS\",\"format\":\"tar.gz\"}"
+  (cd "$REPO_ROOT" && tar -czf "$OUTPUT_PATH_ABS" ".vscode/audit.json" ".vscode/tooling.json" "governance.config.json" "spec/SPECIFICATION.md")
+fi
+
+log_json "info" "report.bundle.created" "{\"output\":\"$OUTPUT_PATH_ABS\"}"
