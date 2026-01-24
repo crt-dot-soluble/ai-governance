@@ -16,14 +16,14 @@ It contains no application code by design.
     ```bash
     git clone https://github.com/crt-dot-soluble/ai-governance.git
     ```
-3. **Scaffold governance structure (pass your spec):**
+3. **Scaffold governance structure (pass your SPECIFICATION.md):**
     - PowerShell:
        ```powershell
-       .\ai-governance\scripts\init-governance.ps1 .\MY-APP.md
+       .\ai-governance\scripts\init-governance.ps1 .\SPECIFICATION.md
        ```
     - Bash:
        ```bash
-       ./ai-governance/scripts/init-governance.sh ./MY-APP.md
+       ./ai-governance/scripts/init-governance.sh ./SPECIFICATION.md
        ```
 4. **Open the project in VS Code**
 5. **Run tasks (in order):**

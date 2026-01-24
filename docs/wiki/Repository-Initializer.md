@@ -12,6 +12,16 @@ The filename **must** be SPECIFICATION.md.
 
 Run the script from a cloned copy of this governance repository so it can copy the required files.
 
+### Example
+- PowerShell:
+	```powershell
+	.\scripts\init-governance.ps1 .\SPECIFICATION.md
+	```
+- Bash:
+	```bash
+	./scripts/init-governance.sh ./SPECIFICATION.md
+	```
+
 The initializer:
 - Creates the required governance structure
 - Copies governance files (excluding any .git data)
