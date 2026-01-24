@@ -90,7 +90,7 @@ Run these tasks to refresh the artifacts:
 - Governance Policy Validate
 - Governance Report Bundle
 
-Artifacts:
+Artifacts (example):
 - [Audit report](reports/audit.json)
 - [Tooling report](reports/tooling.json)
 - [Report bundle](reports/report-bundle.zip)
